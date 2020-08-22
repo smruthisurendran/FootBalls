@@ -1,0 +1,113 @@
+﻿
+
+
+
+@model FootBalls.Models.TblTeamSponsor
+@{
+    ViewBag.Title = "TeamSponsor view";
+    Layout = "~/Views/Shared/_PlayerViewLayout.cshtml";
+}
+
+@if (Session["UserId"] != null)
+{
+    <div class="topnav">
+        <a href="@Url.Action("Logout", "Account")">Logout</a>
+    </div>
+}
+else
+{
+    <div class="topnav">
+        @*<a href="@Url.Action("Logout", "Account")">Logout</a>*@
+    </div>
+}
+
+<div class="topnav1">
+    <h4>Welcome to @Model.Name Details!!</h4>
+    <a href="@Url.Action("TeamSponsor", "TeamSponsorDetails")" style="text-decoration:none;color:whitesmoke;">>>Home</a>
+</div>
+<br />
+<br />
+
+@*<div style="color:blue;text-align:right;font-size:larger;">
+        <a href="@Url.Action("Coach", "CoachDetails")" style="text-decoration:none;color:whitesmoke;">>>Home</a>
+    </div>
+
+    <div style="font-size:larger;color:whitesmoke;font-family:'Times New Roman';">
+        <h3>Welcome to @Model.Coach Details!!</h3>
+    </div> *@
+
+@*<div style="text-align:right;margin-right:16px;">
+
+        <a href="@Url.Action("Teams", "PlayersTeam",new RouteValueDictionary(new { id = Model.CoachId }))"> <input type="button" class="btn btn-info" value="Players Teams" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("Championship", "PlayersChampionships",new RouteValueDictionary(new { id = Model.CoachId }))"> <input type="button" class="btn btn-outline-info" value="Registered ChampionShips" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("Matches", "PlayersMatches", new RouteValueDictionary( new { id = Model.CoachId }))"> <input type="button" class="btn btn-info" value="Players Matches" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("PlayersAwards", "Awards", new RouteValueDictionary(new { id = Model.CoachId }))"> <input type="button" class="btn btn-info" value="Awards" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("PlayersRequest","PlayersRequest", new RouteValueDictionary( new { id = Model.CoachId }))"> <input type="button" class="btn btn-info" value="Players Requests" style="background-color:whitesmoke;" /></a>
+
+
+        <a href="@Url.Action("MyRequest","PlayersMyRequest", new RouteValueDictionary(new { id = Model.CoachId}))"> <input type="button" class=" btn btn-info" value="My Request" style="background-color:whitesmoke;" /> </a>
+
+
+    </div> *@
+<br />
+<br />
+<div align="center">
+
+    <form style="color:whitesmoke;font-size:medium;">
+        <fieldset>
+            <div>
+                @Html.HiddenFor(model => model.UserId)
+                @Html.HiddenFor(model => model.TeamSponsorId)
+                <div class="form-row">
+                    <div class="form-group">
+                        <div>
+                            <label><b>Team Sponsor Name : </b></label>
+                            @Html.DisplayFor(model => model.Name)
+                        </div>
+
+                        <br />
+                        <br />
+
+                        <div>
+                            <label><b>Category :</b></label>
+                            @if (Model.Category == "Private")
+                            {
+                                <label>Private</label>
+                            }
+                            else if (Model.Category == "Private Sector")
+                            {
+                                <label>Private Sector</label>
+                            }
+                            else
+                            {
+                                <label>Government Institution</label>
+                            }
+                        </div>
+                        <br />
+                        <br />
+
+
+
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<br />
+<br />
+<a href="@Url.Action("TeamSponsor", "TeamSponsorDetails")" style="text-decoration:none;color:whitesmoke;"><input type="button" value="Back" class="btn-outline-danger" /></a>
+
+
+
+
+

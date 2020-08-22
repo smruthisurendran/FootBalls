@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+
+
+<html>
+<head>
+    <!--Custom Theme files -->
+    <link href="~/Content/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- Custom Theme files -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Flat Purple Login Form Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+            .topnav a {
+                float: left;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                font-size: 17px;
+            }
+
+                .topnav a:hover {
+                    background-color: #ddd;
+                    color: black;
+                }
+
+                .topnav a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+       
+    </style>
+
+</head>
+<body style="background-image:url('/Content/images/gallery02.jpg');">
+    @*<div class="topnav">
+        <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+        <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+        <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+        <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+        <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+        <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+        <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+        <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+        <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+    </div>*@
+
+        <div>
+            @RenderBody()
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+</body>
+</html>

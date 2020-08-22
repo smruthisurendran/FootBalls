@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        table{
+            border-spacing: 10px;
+            border: 1px solid black;
+            
+            text-align: center;
+          }
+        .headerSortUp:after
+        {
+            content: '';
+            position:relative;
+            left:2px;
+            border:8px solid transparent;
+            bottom: 15px;
+            border-bottom-color: black;
+            padding-right:10px;
+        }
+        .headerSortDown:decrement
+        {
+            content:'';
+            position:relative;
+            left:2px;
+            border:8px solid transparent;
+            top: 10px;
+            border-top-color: black;
+            padding-right:10px;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+            .topnav a {
+                float: left;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                font-size: 17px;
+            }
+
+                .topnav a:hover {
+                    background-color: #ddd;
+                    color: black;
+                }
+
+                .topnav a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+
+        .topnav1 {
+            margin-top: 30px;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+            .topnav1 h4 {
+                float: left;
+                color: #f2f2f2;
+                text-align: center;
+                font-size: 12px;
+            }
+
+            .topnav1 a {
+                float: right;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                font-size: 12px;
+            }
+
+            ul {
+                list-style-type:none;
+                margin:auto;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            li {
+                float:right;
+            }
+
+            li a {
+                float:right;
+                color:#f2f2f2;
+                text-align:center;
+                padding:14px 16px;
+                text-decoration:none;
+                font-size:12px;
+            }
+    </style>
+    
+</head>
+<body style="background-image:url('/Content/images/F3.jpg');">
+
+    
+
+
+    
+    <div>
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+
+        function showMsg1() {
+                alert('You Need to Login First');
+                window.location = '@Url.Action("Login","Account")';
+                }
+    </script>
+
+</body>
+</html>

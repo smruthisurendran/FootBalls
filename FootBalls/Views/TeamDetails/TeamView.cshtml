@@ -1,0 +1,136 @@
+﻿
+
+@model FootBalls.Models.TblTeam
+@{
+    ViewBag.Title = "Team view";
+    Layout = "~/Views/Shared/_PlayerViewLayout.cshtml";
+}
+
+@if (Session["UserId"] != null)
+{
+    <div class="topnav">
+        <a href="@Url.Action("Logout", "Account")">Logout</a>
+    </div>
+}
+else
+{
+    <div class="topnav">
+        @*<a href="@Url.Action("Logout", "Account")">Logout</a>*@
+    </div>
+}
+
+<div class="topnav1">
+    <h4>Welcome to @Model.TeamName Details!!</h4>
+    <a href="@Url.Action("Team", "TeamDetails")" style="text-decoration:none;color:whitesmoke;">>>Home</a>
+</div>
+<br />
+<br />
+@if (Session["UserId"] != null && Session["TeamSponsorId"] != null)
+{
+    if (Convert.ToInt32(Session["TeamSponsorId"].ToString()) == Model.TeamSponsorId)
+    {
+        <div style="text-align:right;margin-right:16px;">
+            <a href="@Url.Action("PlayerS", "PlayerDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Add Player" style="background-color:whitesmoke;" /> </a>
+            <a href="@Url.Action("Coachh", "CoachDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Add Coach" style="background-color:whitesmoke;" /> </a>
+        </div>
+    }
+}
+
+<br />
+<br />
+<div align="center">
+
+    <form style="color:whitesmoke;font-size:medium;">
+        <fieldset>
+            <div>
+                @Html.HiddenFor(model => model.TeamSponsorId)
+                @Html.HiddenFor(model => model.TeamId)
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <br />
+                        <br />
+                        @if (@ViewBag.ImageData != null)
+                        {
+                            <div>
+                                <img src="@ViewBag.ImageData" width="150" height="200">
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <img src="~/Content/images/no-image-480x480.png" width="150" height="200">
+                            </div>
+                        }
+
+                        <br />
+                        <div>
+
+                            @Html.DisplayFor(model => model.TeamName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <div>
+                            <label><b>Team Name : </b></label>
+                            @Html.DisplayFor(model => model.TeamName)
+                        </div>
+                        <br />
+                        <br />
+                        <div>
+                            <label><b>Country : </b></label>
+                            @Html.DisplayFor(model => model.TblCity.TblRegion.TblCountry.Country)
+                        </div>
+
+                        <br />
+                        <br />
+                        <div>
+                            <label><b> Region : </b></label>
+                            @Html.DisplayFor(model => model.TblCity.TblRegion.Region)
+                        </div>
+
+                        <br />
+                        <br />
+
+                        <div>
+                            <label><b>City : </b></label>
+                            @Html.DisplayFor(model => model.TblCity.City)
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <div>
+                            <label><b>Team Sponsor : </b></label>
+                            @Html.DisplayFor(model => model.TblTeamSponsor.Name)
+                        </div>
+                        <br />
+                        <br />
+                        <div>
+                            <label><b>Registration Date : </b></label>
+                            @Html.DisplayFor(model => model.RegistrationDate)
+                        </div>
+
+                        <br />
+                        <br />
+                        <div>
+                            <label><b> Expiration Date : </b></label>
+                            @Html.DisplayFor(model => model.ExpirationDate)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<br />
+<br />
+<a href="@Url.Action("Team", "TeamDetails")" style="text-decoration:none;color:whitesmoke;"><input type="button" value="Back" class="btn-outline-danger" /></a>
+
+
+

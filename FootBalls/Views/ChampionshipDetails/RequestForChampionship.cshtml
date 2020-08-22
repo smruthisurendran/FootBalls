@@ -1,0 +1,169 @@
+﻿@model PagedList.IPagedList<FootBalls.Models.TblChampionshipRequest>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "ChampionshipRequests";
+    Layout = "~/Views/Shared/_PlayerLayout.cshtml";
+}
+
+@if (Session["UserId"] != null)
+{
+    <div class="topnav">
+        <ul>
+            <li>
+                <a href="@Url.Action("Logout", "Account")">Logout</a>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div class="topnav">
+        @*<a href="@Url.Action("Logout", "Account")">Logout</a>*@
+    </div>
+}
+
+<div class="topnav1">
+    <h4>Championship Request Details</h4>
+    <a href="@Url.Action("ChampionshipView", "ChampionshipDetails", new RouteValueDictionary(new { id = ViewBag.ChampionshipId }))" style="text-decoration:none;">Championship Details </a>
+
+    <a href="@Url.Action("Championship", "ChampionshipDetails")" style="text-decoration:none;color:whitesmoke;">Home</a>
+
+</div>
+
+@*<div class="col-md-5 align-self-center" style="font-size:larger;">
+        <h2 class="text-themecolor" style="color:blue;text-align:center;">Players Request Details</h2>
+    </div>
+
+    <div style="color:blue;text-align:left;font-size:larger;">
+        <a href="@Url.Action("Player", "PlayerDetails")" style="text-decoration:none;">>>Home</a>
+        <br /><br />
+        <a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = ViewBag.PlayerId }))" style="text-decoration:none;">Players Detail </a>
+    </div> *@
+
+<br />
+<div class="table-responsive">
+    <table cellspacing="10" cellpadding="3" style="width:50%;">
+
+
+        <tr style="border-bottom:3px solid black;">
+            
+            <th style="border-bottom:3px solid black"> PlayGround Owner </th>
+            <th style="border-bottom:3px solid black"> Starting Date </th>
+            <th style="border-bottom:3px solid black"> End Date </th>
+            <th style="border-bottom:3px solid black" colspan="2"> Status </th>
+        </tr>
+
+
+        <tbody style="border-bottom:2px solid black;border-right:2px solid black;">
+            @if (Model != null)
+            {
+                foreach (var items in Model)
+                {
+                    <tr>
+                        
+                        <td>@items.TblPlayGroundOwner.Name </td>
+                        <td>@items.StartDate </td>
+                        <td>@items.EndDate </td>
+                        <td><a href="@Url.Action("RequestStatusUpdate", "ChampionshipDetails", new RouteValueDictionary(new { id = 1,crid =items.ChampionshipRequestId }))"><input type="button" class=" btn btn-info" value="Approve" onclick='ApproveMsg()' style="background-color:lawngreen;" /></a></td>
+                        <td><a href="@Url.Action("RequestStatusUpdate", "ChampionshipDetails", new RouteValueDictionary(new { id = 1,crid =items.ChampionshipRequestId }))"><input type="button" class=" btn btn-info" value="Reject" onclick='RejectMsg()' style="background-color:red;" /> </a></td>
+
+                    </tr>
+
+                }
+            }
+            else
+            {
+                <tr style="width:100px; margin: 0;">
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("RequestForCoach", new { page }))
+</div>
+<script type="text/javascript">
+
+            function ApproveMsg()
+            {
+                alert('Request Approved');
+                window.location = '';
+    }
+     function RejectMsg()
+            {
+                alert('Request Rejected');
+                window.location = '';
+    }
+</script>

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="~/Content/Reg/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="~/Content/Reg/css/style.css">
+
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    @Scripts.Render("~/Content/Reg/vendor/jquery/jquery.min.js")
+    @Scripts.Render("~/Content/Reg/js/Main.js")
+
+    <!-- JS -->
+    <script src="~/Content/Reg/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/Reg/js/main.js"></script>
+
+</body>
+</html>

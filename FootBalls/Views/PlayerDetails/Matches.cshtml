@@ -1,0 +1,163 @@
+﻿
+@model IEnumerable<FootBalls.Models.TblPlayer>
+@{
+    ViewBag.Title = "PlayerMatches";
+    Layout = "~/Views/Shared/_PlayerLayout.cshtml";
+}
+
+@if (Session["UserId"] != null)
+{
+<div class="topnav">
+    <ul>
+        <li>
+            <a href="@Url.Action("Logout", "Account")">Logout</a>
+        </li>
+    </ul>
+</div>
+}
+else
+{
+    <div class="topnav">
+        @*<a href="@Url.Action("Logout", "Account")">Logout</a>*@
+    </div>
+}
+
+<div class="topnav1">
+    <h4>Players Matches Details</h4>
+    <a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = ViewBag.PlayerId }))" style="text-decoration:none;">Players Detail </a>
+    <a>/</a>
+    <a href="@Url.Action("Player", "PlayerDetails")" style="text-decoration:none;color:whitesmoke;">Home</a>
+
+</div>
+
+@*<div class="col-md-5 align-self-center" style="font-size:larger;">
+    <h2 class="text-themecolor" style="color:blue;text-align:center;">Players Matches Details</h2>
+</div>
+
+<div style="color:blue;text-align:left;font-size:larger;">
+    <a href="@Url.Action("Player", "PlayerDetails")" style="text-decoration:none;">>>Home</a>
+    <br /><br />
+    <a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = ViewBag.PlayerId }))" style="text-decoration:none;">Players Detail </a>
+</div> *@
+
+<br />
+<div class="table-responsive">
+    <table cellspacing="5" cellpadding="5" style="width:50%;">
+
+        <thead style="border-bottom:3px solid black">
+            <tr style="border-bottom:3px solid black;">
+                <th style="border-bottom:3px solid black"> SN </th>
+                <th style="border-bottom:3px solid black"> Championship Name </th>
+                <th style="border-bottom:3px solid black"> Championship Class </th>
+                <th style="border-bottom:3px solid black"> Sponsor </th>
+                <th style="border-bottom:3px solid black"> My Team </th>
+                <th style="border-bottom:3px solid black"> Against </th>
+                <th style="border-bottom:3px solid black"> From-Date </th>
+                <th style="border-bottom:3px solid black"> To-Date-Time </th>
+                <th style="border-bottom:3px solid black"> Location </th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var items in Model)
+                {
+                    <tr>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

@@ -1,0 +1,218 @@
+﻿
+@model PagedList.IPagedList<FootBalls.Models.TblChampionship>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@* @model IEnumerable<FootBalls.Models.TblPlayer>  *@
+@{
+    ViewBag.Title = "ChampionShip";
+    Layout = "~/Views/Shared/_PlayerLayout.cshtml";
+}
+
+@if (Session["UserId"] != null)
+{
+<div class="topnav">
+    <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+    <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+    <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+    <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+    <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+    <ul>
+        <li>
+            <a href="@Url.Action("Logout", "Account")">Logout</a>
+        </li>
+    </ul>
+</div>
+}
+else
+{
+    <div class="topnav">
+        @*<a href="@Url.Action("Logout", "Account")">Logout</a>*@
+    </div>
+}
+
+<div class="col-md-7 align-self-center text-right">
+    <div class="d-flex justify-content-end align-items-center" align="right">
+        <div class="topnav1">
+            <h4>Championship List</h4>
+            @if (Session["UserId"] != null)
+            {
+                if (Session["ChampionshipSponsorId"] != null)
+                {
+                    <a href="@Url.Action("ChampionshipRegistration", "ChampionshipDetails")"><input type="button" value="Register Championship" style="background-color:aqua;" /> </a>
+                 @*   <input type="button" value="Register Championship" style="background-color:aqua;" onclick='showMsge()' /> *@
+                }
+                else
+                {
+                    <input type="button" value="Register Championship" style="background-color:aqua;" onclick='showMsge()' />
+                }
+            }
+            else
+            {
+                <input type="button" value="Register Championship" style="background-color:aqua;" onclick='showMsg()' />
+            }
+        </div>
+    </div>
+</div>
+<br />
+<div class="table-responsive">
+
+    <b>  search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
+
+   
+
+    <br />
+    <br />
+    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border"class="table table-bordered table-condensed table-striped table-hover sortable">
+        <thead style="border-bottom:3px solid black">
+            <tr class="danger" style="border-bottom:3px solid black">
+
+                <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Championship Name </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp "> Category </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp "> Start Date </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> End Date </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
+               
+            </tr>
+        </thead>
+        <tbody  id="myTable"  style="border-bottom:2px solid black;">
+
+            @if (Model != null)
+            {
+                foreach (var items in Model)
+                {
+
+            <tr>
+
+
+                <td><a href="@Url.Action("ChampionshipView", "ChampionshipDetails", new RouteValueDictionary(new { id = items.ChampionshipId }))">@items.Championship</a></td>
+                @if (@items.Category == "Private")
+                {
+                    <td> Private </td>
+                }
+                else if (@items.Category == "Private Sector")
+                {
+                    <td> Private Sector </td>
+                }
+                else
+                {
+                    <td> Government Institutions </td>
+                }
+
+                <td>@items.ChampionshipStartDate</td>
+                <td>@items.ChampionshipEndDate</td>
+                <td>@items.TblCity.City</td> 
+                <td>@items.TblCity.TblRegion.Region </td>
+                <td>@items.TblCity.TblRegion.TblCountry.Country</td>   
+                
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <br />
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Championship", new { page }))   
+
+</div>
+
+
+<script type="text/javascript">
+
+            function showMsg()
+            {
+                alert('Have to Login Before Registration');
+                window.location = '@Url.Action("Login","Account")';
+            }
+
+    function showMsge() {
+        alert('Only Championship Sponsor can Register for Championship');
+        window.location = '@Url.Action("Championship", "ChampionshipDetails")';
+    }
+           function searchTable() {
+                var input, filter, found, table, tr, td, i, j;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td");
+                    for (j = 0; j < td.length; j++) {
+                        if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                        }
+                    }
+                    if (found) {
+                        tr[i].style.display = "";
+                        found = false;
+                    }
+                    else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+
+   @*     $(function () {
+            var myTable = "#myTable";
+            var myTableBody = myTable + "tbody";
+            var myTableRows = myTableBody + "tr";
+            var myTableColumn = myTable + "th";
+
+            function initTable() {
+                $(myTableColumn).each(function () {
+                    var width = $(this).width();
+                    $(this).width(width + 40);
+                });
+
+                $(myTableColumn).eq(0).addClass("sorted-asc");
+
+                sortTable($(myTable), 0, "asc");
+            }
+            initTable();
+
+            function sortTable(table, column, order) {
+                var asc = order === 'asc';
+                var tbody = table.find('tbody');
+
+                tbody.find('tr').sort(function (a, b) {
+                    if (asc) {
+                        return $('td:eq(' + column + ')', a).text()
+                            .localeCompare($('td:eq(' + column + ')', b).text());
+                    }
+                    else {
+                        return $('td:eq(' + column + ')', b).text()
+                            .localeCompare($('td:eq(' + column + ')', a).text());
+                    }
+                }).appendTo(tbody);
+            }
+
+            $(myTableColumn).click(function () {
+                $(myTableColumn).not($(this)).removeClass("sorted-asc sorted-desc");
+
+                if ($(this).hasClass("sorted-asc") || $(this).hasClass("sorted-desc")) {
+                    $(this).toggleClass("sorted-asc sorted-desc");
+                }
+                else {
+                    $(this).addClass("sorted-asc");
+                }
+
+                sortTable($(myTable),
+                    $(this).index(), $(this).hasClass("sorted-asc") ? "asc" : "desc");
+            });
+        }); *@
+
+
+
+</script>
+
+
+

@@ -1,0 +1,178 @@
+﻿
+@model FootBalls.Models.TblPlayGround
+@{
+    ViewBag.Title = "PlayGround view";
+    Layout = "~/Views/Shared/_PlayerViewLayout.cshtml";
+}
+
+@if (Session["UserId"] != null)
+{
+    <div class="topnav">
+        <a href="@Url.Action("Logout", "Account")">Logout</a>
+    </div>
+}
+else
+{
+    <div class="topnav">
+        @*<a href="@Url.Action("Logout", "Account")">Logout</a>*@
+    </div>
+}
+
+<div class="topnav1">
+    <h4>Welcome to @Model.Name Details!!</h4>
+    <a href="@Url.Action("PlayGround", "PlayGroundDetails")" style="text-decoration:none;color:whitesmoke;">>>Home</a>
+</div>
+<br />
+<br />
+
+@* <div style="color:blue;text-align:right;font-size:larger;">
+        <a href="@Url.Action("Player", "PlayerDetails")" style="text-decoration:none;color:whitesmoke;">>>Home</a>
+    </div>
+
+    <div style="font-size:larger;color:whitesmoke;font-family:'Times New Roman';">
+        <h3>Welcome to @Model.Player Details!!</h3>
+    </div> *@
+@*
+    <div style="text-align:right;margin-right:16px;">
+
+        <a href="@Url.Action("Teams", "PlayersTeam",new RouteValueDictionary(new { id = Model.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Teams" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("Championship", "PlayersChampionships",new RouteValueDictionary(new { id = Model.PlayerId }))"> <input type="button" class="btn btn-outline-info" value="Registered ChampionShips" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("Matches", "PlayersMatches", new RouteValueDictionary( new { id = Model.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Matches" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("PlayersAwards", "Awards", new RouteValueDictionary(new { id = Model.PlayerId }))"> <input type="button" class="btn btn-info" value="Awards" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("PlayersRequest","PlayersRequest", new RouteValueDictionary( new { id = Model.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Requests" style="background-color:whitesmoke;" /></a>
+
+
+        <a href="@Url.Action("MyRequest","PlayersMyRequest", new RouteValueDictionary(new { id = Model.PlayerId}))"> <input type="button" class=" btn btn-info" value="My Request" style="background-color:whitesmoke;" /> </a>
+
+
+    </div>
+    <br />
+    <br />
+*@
+<div align="center">
+
+    <form style="color:whitesmoke;font-size:medium;">
+        <fieldset>
+            <div>
+
+                @Html.HiddenFor(model => model.PGId)
+                <div class="form-row">
+                  
+                    <div class="form-group">
+
+                        <br />
+                        <br />
+                        @if (@ViewBag.ImageData != null)
+                        {
+                            <div>
+                                <img src="@ViewBag.ImageData" width="150" height="200">
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <img src="~/Content/images/no-image-480x480.png" width="150" height="200">
+                            </div>
+                        }
+
+                        <br />
+                        <div>
+
+                            @Html.DisplayFor(model => model.Name)
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <br />
+                            <br />
+                            <div>
+                                <label><b>PlayGround Name : </b></label>
+                                @Html.DisplayFor(model => model.Name)
+                            </div>
+                            <br />
+                            <br />
+
+                            <div>
+                                <label><b> Length : </b></label>
+                                @Html.DisplayFor(model => model.Length)
+                            </div>
+                            <br />
+                            <br />
+
+                            <div>
+                                <label><b>Width :</b></label>
+                                @Html.DisplayFor(model => model.Width)
+                            </div>
+                            <br />
+                            <br />
+
+                            <div>
+                                <label><b>Goal Length :</b></label>
+                                @Html.DisplayFor(model => model.GoalLength)
+                            </div>
+
+                            <br />
+                            <br />
+
+                            <div>
+                                <label><b>PlayGround Location :</b></label>
+                                @Html.DisplayFor(model => model.Location)
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <br />
+                            <br />
+                            <div>
+                                <label><b> Goal Width: </b></label>
+                                @Html.DisplayFor(model => model.GoalWidth)
+                            </div>
+                            <br />
+                            <br />
+
+                            <div>
+                                <label><b>Renting Price :</b></label>
+                                @Html.DisplayFor(model => model.RentingPrice)
+                            </div>
+                            <br />
+                            <br />
+                            <div>
+                                <label><b>Country : </b></label>
+                                @Html.DisplayFor(model => model.TblCity.TblRegion.TblCountry.Country)
+                            </div>
+                            <br />
+                            <br />
+
+                            <div>
+                                <label><b> Region : </b></label>
+                                @Html.DisplayFor(model => model.TblCity.TblRegion.Region)
+                            </div>
+                            <br />
+                            <br />
+
+                            <div>
+                                <label><b>City : </b></label>
+                                @Html.DisplayFor(model => model.TblCity.City)
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </fieldset>
+    </form>
+</div>
+
+
+<br />
+<br />
+<a href="@Url.Action("PlayGround", "PlayGroundDetails")" style="text-decoration:none;color:whitesmoke;"><input type="button" value="Back" class="btn-outline-danger" /></a>
+

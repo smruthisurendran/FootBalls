@@ -1,0 +1,165 @@
+﻿
+@model PagedList.IPagedList<FootBalls.Models.TblCoach>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@* @model IEnumerable<FootBalls.Models.TblPlayer>  *@
+@{
+    ViewBag.Title = "Coach";
+    Layout = "~/Views/Shared/_PlayerLayout.cshtml";
+}
+
+@if (Session["UserId"] != null)
+{
+<div class="topnav">
+    <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+    <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+    <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+    <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+    <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+
+    <ul>
+        <li>
+            <a href="@Url.Action("Logout", "Account")">Logout</a>
+        </li>
+    </ul>
+
+</div>
+}
+else
+{
+    <div class="topnav">
+        @*<a href="@Url.Action("Logout", "Account")">Logout</a>*@
+    </div>
+}
+
+
+<div class="col-md-7 align-self-center text-right">
+    <div class="d-flex justify-content-end align-items-center" align="right">
+        <div class="topnav1">
+            <h4>Coach List</h4>
+            @*@if (Session["UserId"] != null)
+            {
+                if (Session["CoachId"] != null)
+                {
+                    <input type="button" value="Register Coach" style="background-color:aqua;" onclick='showMsge()' />
+                }
+                else
+                {
+               
+                    <a href="@Url.Action("CoachRegistration", "CoachDetails")"><input type="button" value="Register Coach" style="background-color:aqua;" /> </a>
+                }
+            }
+            else
+            {
+                <input type="button" value="Register Coach" style="background-color:aqua;" onclick='showMsg()' />
+            }*@
+        </div>
+    </div>
+</div>
+<br />
+<div class="table-responsive">
+
+    <b> search: </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
+
+   
+    <br />
+    <br />
+    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border"  class="table table-bordered table-condensed table-striped table-hover sortable">
+        <thead style="border-bottom:3px solid black">
+            <tr class="danger" style="border-bottom:3px solid black">
+
+                <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Coach Name </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp "> Weight </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp "> Height </th>
+
+                <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
+
+                <th style="border-bottom:3px solid black"> Total Championship  </th>
+                <th style="border-bottom:3px solid black">  Total Matches  </th>
+
+            </tr>
+        </thead>
+        <tbody id="myTable" style="border-bottom:2px solid black;">
+
+            @if (Model != null)
+            {
+                foreach (var items in Model)
+                {
+
+                    <tr>
+
+                        @*<td><a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))">@items.Coach</a></td>*@
+                        <td>@items.Coach</td>
+                        <td>@items.Weight</td>
+                        <td>@items.Length</td>
+
+
+                        <td>@items.TblCity.City</td>
+                        <td>@items.TblCity.TblRegion.Region </td>
+                        <td>@items.TblCity.TblRegion.TblCountry.Country</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                        <td><a href="@Url.Action("CoachRequest", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))" style="color:darkmagenta;"><input type="button" value="Request For Coach" style="background-color:#663507;" onclick='showMsg()' /></a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Coachh", new { page }))
+
+</div>
+
+
+<script type="text/javascript">
+
+            function showMsg()
+            {
+                alert('Request Send Successfully ');
+               window.location = '';
+            }
+
+    function showMsge() {
+        alert('Multiple Coach registration is not possible');
+        window.location = '@Url.Action("Coach", "CoachDetails")';
+    }
+           function searchTable() {
+                var input, filter, found, table, tr, td, i, j;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td");
+                    for (j = 0; j < td.length; j++) {
+                        if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                        }
+                    }
+                    if (found) {
+                        tr[i].style.display = "";
+                        found = false;
+                    }
+                    else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+
+</script>
+
+
+

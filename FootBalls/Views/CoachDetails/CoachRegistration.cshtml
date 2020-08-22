@@ -1,0 +1,177 @@
+﻿
+@model FootBalls.Models.TblCoach
+@{
+    ViewBag.Title = "PlayerRegistration";
+    Layout = "~/Views/Shared/_PlayerRegistrationLayout.cshtml";
+}
+
+
+<div class="main">
+    <div class="container">
+
+        <div class="signup-content">
+            <div class="signup-img">
+                <img src="~/Content/PlayerReg/images/F7.jpg" alt="">
+            </div>
+
+            <div class="signup-form">
+                @using (Html.BeginForm("CoachRegistration", "CoachDetails", FormMethod.Post, new { @class = "register-form", enctype = "multipart/form-data" }))
+                {
+                    <h2><b>Coach Registration </b></h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Coach, new { @class = "" })
+                            @Html.EditorFor(model => model.Coach, new { htmlAttributes = new { @class = "form-control", placeholder = " Name", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Coach, "",  new { @style = "color:red" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DOB, new { @class = "" })
+                            @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "datepicker text-box single-line", placeholder = "Please Click Here ", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.DOB, "", new { @style = "color:red" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Photo, new { @class = "" })
+                            <input id="Photo" title="Upload Image" type="file" name="postedFile" />
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Mobile, new { @class = "" })
+                            @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "", placeholder = " Mobile Number", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Mobile, "", new { @style = "color:red" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Length, new { @class = "" })
+                            @Html.EditorFor(model => model.Length, new { htmlAttributes = new { @class = "", placeholder = " Length", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Length, "", new { @style = "color:red" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Weight, new { @class = "" })
+                            @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "", placeholder = " Weight", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Weight, "", new { @style = "color:red" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TblCity.TblRegion.TblCountry.Country, new { @class = "" })
+                            @Html.DropDownList("country", (IEnumerable<SelectListItem>)ViewBag.CountryList, "<Please Select>", new { @class = "", placeholder = "Region" })
+                            @Html.ValidationMessageFor(model => model.TblCity.TblRegion.TblCountry.Country, "", new { @style = "color:red" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TblCity.TblRegion.Region, new { @class = "" })
+                            @Html.DropDownList("region", new SelectList(string.Empty, "Value", "Text"), "<Please Select>", new { @class = "", placeholder = "Region" })
+                            @Html.ValidationMessageFor(model => model.TblCity.TblRegion.Region, "", new { @style = "color:red" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TblCity.City, new { @class = "" })
+                            @Html.DropDownList("city", new SelectList(string.Empty, "Value", "Text"), "<Please Select>", new { @class = "", placeholder = "City" })
+                            @Html.ValidationMessageFor(model => model.TblCity.City, "", new { @style = "color:red" })
+                        </div>
+                       
+                    </div>
+                  
+                    <div class="form-submit">
+                        <a href="@Url.Action("Coach","CoachDetails")"><input type="button" value="Cancel" class="submit" name="reset" id="reset" /></a>
+                        <input type="submit" value="Submit" class="submit" name="submit" id="submit" />
+                    </div>
+
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('input[type=datetime]').datepicker({
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "-60:+0",
+
+                });
+
+            });
+
+            // for checkbox div show/hide
+       /*     function showHideDiv(ele) {
+                var srcElement = document.getElementById(ele);
+                if (srcElement != null) {
+                    if (srcElement.style.display == "block") {
+                        srcElement.style.display = 'none';
+                    }
+                    else {
+                        srcElement.style.display = 'block';
+                    }
+                    return false;
+                }
+            }*/
+
+            // for region dropdown
+             $(document).ready(function () {
+
+        $("#country").change(function () {
+            $("#region").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getRegion")',
+                dataType: 'json',
+                data: { id: $("#country").val() },
+                success: function (region) {
+                    $.each(region, function (i, region) {
+                        $("#region").append('<option value="' + region.Value + '">' + region.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+            //for city dropdown
+         $(document).ready(function () {
+        $("#region").change(function () {
+            $("#city").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getCity")',
+                dataType: 'json',
+                data: { id: $("#region").val() },
+                success: function (city) {
+                    $.each(city, function (i, city) {
+                        $("#city").append('<option value="'+ city.Value + '">'+ city.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed.' + ex);
+                }
+            });
+            return false;
+        })
+            });
+
+    </script>
+
+}
+

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<FootBalls.Models.TblTeamMembers>
+
+<div align="center">
+
+    <form style="color:whitesmoke;font-size:medium;">
+        <fieldset>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>tttt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var items in Model)
+                        {
+                        <tr>
+                            <td>@items.TeamMemberId</td>
+                        </tr>
+                        
+                    }
+
+                        </tbody>
+                    </table>
+              
+              
+            </div>
+        </fieldset>
+    </form>
+</div>

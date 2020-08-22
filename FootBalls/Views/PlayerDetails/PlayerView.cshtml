@@ -1,0 +1,234 @@
+﻿@model FootBalls.Models.PlayerAllDetails
+@{
+    ViewBag.Title = "Player view";
+    Layout = "~/Views/Shared/_PlayerViewLayout.cshtml";
+}
+
+@if (Session["UserId"] != null)
+{
+    <div class="topnav">
+        <a href="@Url.Action("Logout", "Account")">Logout</a>
+    </div>
+}
+else
+{
+    <div class="topnav">
+        @*<a href="@Url.Action("Logout", "Account")">Logout</a>*@
+    </div>
+}
+
+<div class="topnav1">
+    <h4>Welcome to @Model.PlayerTbl.Player Details!!</h4>
+    @if (Session["UserId"] != null && Convert.ToInt32(Session["UserId"].ToString()) == Model.PlayerTbl.UserId)
+    {
+        <a href="@Url.Action("EditProfile", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Edit Profile" style="background-color:whitesmoke;" /> </a>
+    }
+</div>
+<br />
+<br />
+
+@* <div style="color:blue;text-align:right;font-size:larger;">
+        <a href="@Url.Action("Player", "PlayerDetails")" style="text-decoration:none;color:whitesmoke;">>>Home</a>
+    </div>
+
+    <div style="font-size:larger;color:whitesmoke;font-family:'Times New Roman';">
+        <h3>Welcome to @Model.Player Details!!</h3>
+    </div> *@
+@if (Session["UserId"] != null && Convert.ToInt32(Session["UserId"].ToString()) == Model.PlayerTbl.UserId)
+{
+    <div style="text-align:right;margin-right:16px;">
+
+        <a href="@Url.Action("Teams", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Teams" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("Championship", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-outline-info" value="Registered ChampionShips" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("Matches", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Matches" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("PlayersAwards", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Awards" style="background-color:whitesmoke;" /> </a>
+
+
+        <a href="@Url.Action("RequestForPlayer", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Requests" style="background-color:whitesmoke;" /></a>
+
+
+        <a href="@Url.Action("MyRequest", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class=" btn btn-info" value="My Request" style="background-color:whitesmoke;" /> </a>
+
+
+    </div>
+}
+<br />
+
+<div align="center">
+    <h4 style="color:white">General Details</h4>
+    <form style="color:whitesmoke;font-size:medium;">
+        <fieldset>
+            <div>
+                @Html.HiddenFor(model => model.PlayerTbl.UserId)
+                @Html.HiddenFor(model => model.PlayerTbl.PlayerId)
+                <div class="form-row">
+                    <div class="form-group">
+
+                        <br />
+                        <br />
+                        @if (@ViewBag.ImageData != null)
+                        {
+                            <div>
+                                <img src="@ViewBag.ImageData" width="150" height="200">
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <img src="~/Content/images/no-image-480x480.png" width="150" height="200">
+                            </div>
+                        }
+                        <br />
+                        <div>
+
+                            @Html.DisplayFor(model => model.PlayerTbl.Player)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*<div>
+                                <label><b>Player Name : </b></label>
+                                @Html.DisplayFor(model => model.Player)
+                            </div>*@
+
+                        @*<div style="margin-left:150px;">*@
+                        <br />
+                        <br />
+                        <div>
+                            <label><b> DOB : </b></label>
+                            @Html.DisplayFor(model => model.PlayerTbl.DOB)
+                        </div>
+                        <br />
+                        <br />
+                        @*<div style="margin-left:10px;">*@
+                        <div>
+                            <label><b>Country : </b></label>
+                            @Html.DisplayFor(model => model.PlayerTbl.TblCity.TblRegion.TblCountry.Country)
+                        </div>
+                        <br />
+                        <br />
+
+                        @*<div style="margin-left:30px;">*@
+                        <div>
+                            <label><b> Region : </b></label>
+                            @Html.DisplayFor(model => model.PlayerTbl.TblCity.TblRegion.Region)
+                        </div>
+                        <br />
+                        <br />
+
+                        @*<div style="margin-left:60px;">*@
+                        <div>
+                            <label><b>City : </b></label>
+                            @Html.DisplayFor(model => model.PlayerTbl.TblCity.City)
+                        </div>
+                        <br />
+                        <br />
+
+                        @*<div style="margin-left:10px;">*@
+                        <div>
+                            <label><b>Mobile Number :</b></label>
+                            @Html.DisplayFor(model => model.PlayerTbl.Mobile)
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <br />
+                        <br />
+                        <div>
+                            <label><b> Playing Place : </b></label>
+                            @Html.DisplayFor(model => model.PlayerTbl.TblPlayingPlace.PlayingPlace)
+                        </div>
+                        <br />
+                        <br />
+                        @*<div style="margin-right:40px;">*@
+                        <div>
+                            <label><b>Length :</b></label>
+                            @Html.DisplayFor(model => model.PlayerTbl.Length)
+                        </div>
+                        <br />
+                        <br />
+
+                        @*<div style="margin-right:50px;">*@
+                        <div>
+                            <label><b>Weight :</b></label>
+                            @Html.DisplayFor(model => model.PlayerTbl.Weight)
+                        </div>
+                        <br />
+                        <br />
+
+                        @*<div style="margin-right:130px;">*@
+                        <div>
+                            <label><b>Championship :</b></label>
+
+                        </div>
+                        <br />
+                        <br />
+
+                        @*<div style="margin-right:80px;">*@
+                        <div>
+                            <label><b>Matches :</b></label>
+
+                        </div>
+                        <br />
+                        <br />
+
+                        @*<div style="margin-right:100px;"><div>*@
+                        <div>
+                            <label><b>Total Goals :</b></label>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<br />
+
+<div align="center">
+    <h4 style="color:white">Team Details</h4>
+    <form style="color:whitesmoke;font-size:medium;">
+        <fieldset>
+            <div>
+                <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
+                    <thead style="border-bottom:3px solid black">
+                        <tr class="danger" style="border-bottom:3px solid black">
+                            <th style="border-bottom:3px solid black">Team Name</th>
+                            <th style="border-bottom:3px solid black">Sponsor Name</th>
+                            <th style="border-bottom:3px solid black">Team Registration Date</th>
+                            <th style="border-bottom:3px solid black">Team Expiration Date</th>
+                        </tr>
+                    </thead>
+                    <tbody style="border-bottom:2px solid black;">
+                        @foreach (var items in Model.TeamMembersTbl)
+                        {
+                            <tr class="danger" style="border:3px solid black">
+                                <td align="center">@items.TblTeam.TeamName</td>
+                                <td align="center">@items.TblTeam.TblTeamSponsor.Name</td>
+                                <td align="center">@items.TblTeam.RegistrationDate</td>
+                                <td align="center">@items.TblTeam.ExpirationDate</td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+
+
+            </div>
+        </fieldset>
+    </form>
+</div>
+<br />
+<br />
+<a href="@Url.Action("Player", "PlayerDetails")" style="text-decoration:none;color:whitesmoke;"><input type="button" value="Back" class="btn-outline-danger" /></a>

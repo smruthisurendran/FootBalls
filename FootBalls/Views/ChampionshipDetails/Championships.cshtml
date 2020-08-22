@@ -1,0 +1,168 @@
+﻿
+@model PagedList.IPagedList<FootBalls.Models.TblChampionship>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@* @model IEnumerable<FootBalls.Models.TblPlayer>  *@
+@{
+    ViewBag.Title = "ChampionShip";
+    Layout = "~/Views/Shared/_PlayerLayout.cshtml";
+}
+
+@if (Session["UserId"] != null)
+{
+<div class="topnav">
+    <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+    <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+    <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+    <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+    <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+    <ul>
+        <li>
+            <a href="@Url.Action("Logout", "Account")">Logout</a>
+        </li>
+    </ul>
+</div>
+}
+else
+{
+    <div class="topnav">
+        @*<a href="@Url.Action("Logout", "Account")">Logout</a>*@
+    </div>
+}
+
+<div class="col-md-7 align-self-center text-right">
+    <div class="d-flex justify-content-end align-items-center" align="right">
+        <div class="topnav1">
+            <h4>Championship List</h4>
+            @*@if (Session["UserId"] != null)
+            {
+                if (Session["ChampionshipSponsorId"] != null)
+                {
+                    <a href="@Url.Action("ChampionshipRegistration", "ChampionshipDetails")"><input type="button" value="Register Championship" style="background-color:aqua;" /> </a>
+                  
+                }
+                else
+                {
+                    <input type="button" value="Register Championship" style="background-color:aqua;" onclick='showMsge()' />
+                }
+            }
+            else
+            {
+                <input type="button" value="Register Championship" style="background-color:aqua;" onclick='showMsg()' />
+            }*@
+        </div>
+    </div>
+</div>
+<br />
+<div class="table-responsive">
+
+    <b>  Find By Championship Name : </b> <input type="search" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
+
+    <a href="@Url.Action("Championship","ChampionshipDetails")"> <input type="button" class="btn btn-info" style="background-color:whitesmoke;" value="Refresh" />  </a>
+
+    <br />
+    <br />
+    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" id="myTable" class="table table-bordered table-condensed table-striped table-hover sortable">
+        <thead style="border-bottom:3px solid black">
+            <tr class="danger" style="border-bottom:3px solid black">
+
+                <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Championship Name </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp "> Category </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp "> Start Date </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> End Date </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
+                <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
+                
+            </tr>
+        </thead>
+        <tbody style="border-bottom:2px solid black;">
+
+            @if (Model != null)
+            {
+                foreach (var items in Model)
+                {
+
+            <tr>
+
+
+                @*<td><a href="@Url.Action("ChampionshipView", "ChampionshipDetails", new RouteValueDictionary(new { id = items.ChampionshipId }))">@items.Championship</a></td>*@
+                <td>@items.Championship</td>
+                @if (@items.Category == "Private")
+                {
+                    <td> Private </td>
+                }
+                else if (@items.Category == "Private Sector")
+                {
+                    <td> Private Sector </td>
+                }
+                else
+                {
+                    <td> Government Institutions </td>
+                }
+
+                <td>@items.ChampionshipStartDate</td>
+                <td>@items.ChampionshipEndDate</td>
+                <td>@items.TblCity.City</td>
+                <td>@items.TblCity.TblRegion.Region </td>
+                <td>@items.TblCity.TblRegion.TblCountry.Country</td>
+                <td><a href="@Url.Action("ChampionshipRequest", "ChampionshipDetails", new RouteValueDictionary(new { id = items.ChampionshipId }))" style="color:darkmagenta;"><input type="button" value="Request For Championship" style="background-color:#663507; " onclick='showMsg()' /></a></td>
+
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Championships", new { page }))
+
+</div>
+
+
+<script type="text/javascript">
+
+           function showMsg()
+            {
+                alert('Request Send Successfully ');
+               window.location = '';
+            }
+
+    function showMsge() {
+        alert('Only Championship Sponsor can Register for Championship');
+        window.location = '@Url.Action("Championship", "ChampionshipDetails")';
+    }
+           function searchTable() {
+                var input, filter, found, table, tr, td, i, j;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td");
+                    for (j = 0; j < td.length; j++) {
+                        if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                        }
+                    }
+                    if (found) {
+                        tr[i].style.display = "";
+                        found = false;
+                    }
+                    else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+</script>
+
+
+
+

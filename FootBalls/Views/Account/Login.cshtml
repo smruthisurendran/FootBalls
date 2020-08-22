@@ -1,0 +1,78 @@
+﻿@model FootBalls.Models.TblUser
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    <div class="login">
+        <div class="buttons">
+            <ul>
+                <li><a class="face" href="#"><span class="face"> </span>Login to Facebook</a></li>
+                <li><a class="twit" href="#"><span class="twit"> </span>Login to Twitter</a></li>
+
+            </ul>
+        </div>
+
+        <h2>Or</h2>
+
+        @Html.EditorFor(model => model.EmailId, new { htmlAttributes = new { @class = "input100", placeholder = "EmailId", autocomplete = "off" } })
+        @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "" })
+
+        @Html.PasswordFor(model => model.Password, new { @class = "input100", placeholder = "Password", autocomplete = "off" })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "" })
+
+
+        <div class="forgot">
+            <label class="checkbox"><input type="checkbox" name="checkbox" checked><i> </i> Keep me signed in</label>
+            <div class="forgot-para">
+                <a href="#"> <p>Forgot Your Password?</p></a>
+            </div>
+            <div class="clear"> </div>
+            <div class="form-submit">
+                <button class="hvr-sweep-to-bottom" type="submit" value="Login">
+                    Login
+                </button>
+            </div>
+        </div>
+
+        <h3>Not a member ? <a color="red" href="@Url.Action("Registration", "Account")">Sign up now!</a>  </h3>
+        @*  <h4><a color="red" style="align-content:flex-start;" href="@Url.Action("Player", "PlayerDetails")"> <b>Player</b>  </a> </h4>
+            <h4><a color="red" style="align-content:center;" href="@Url.Action("Coach", "CoachDetails")"> <b>Coach</b>  </a> </h4> *@
+    </div>
+}
+<br />
+<br />
+<br />
+
+
+<div style="margin-left:250px;margin-right:250px;">
+
+    <a href="@Url.Action("Player","PlayerDetails")" style="font-size:16px;color:chartreuse;margin-left:190px "><b>Player</b></a>
+    <a href="@Url.Action("Referee","RefereeDetails")" style="font-size:16px;color:chartreuse;margin-left:260px"><b>Referee</b></a>
+    <a href="@Url.Action("Coach","CoachDetails")" style="font-size:16px;color:chartreuse;margin-left:260px"><b>Coach</b></a>
+
+</div>
+<br />
+
+<div style="margin-left:250px;margin-right:250px;">
+
+    <a href="@Url.Action("PlayGround","PlayGroundDetails")" style="font-size:16px;color:chartreuse;margin-left:170px"><b>PlayGround</b></a>
+    <a href="@Url.Action("Team","TeamDetails")" style="font-size:16px;color:chartreuse;margin-left:250px"><b>Team</b></a>
+    <a href="@Url.Action("Championship","ChampionshipDetails")" style="font-size:16px;color:chartreuse;margin-left:250px"><b>Championship</b></a>
+   
+</div>
+<br />
+
+
+<div style="margin-left:250px;margin-right:250px;">
+
+    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")" style="font-size:16px;color:chartreuse;margin-left:150px"><b>PlayGroundOwner</b></a>
+    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")" style="font-size:16px;color:chartreuse;margin-left:200px"><b>TeamSponsor</b></a>
+    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")" style="font-size:16px;color:chartreuse;margin-left:200px"><b>ChampionshipSponsor</b></a>
+  
+</div>
+
+
+

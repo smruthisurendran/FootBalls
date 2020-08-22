@@ -1,0 +1,65 @@
+﻿
+@model FootBalls.Models.TblUser
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@*<div style="font-size:larger;color:whitesmoke;font-family:'Times New Roman';">
+        <h3><b>Welcome @Model.Name Details...!!!</b></h3>
+    </div>
+*@
+
+
+<div class="topnav">
+    @*<a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+        <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+        <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+        <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")">TeamSponsor</a>"
+        <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+        <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+        <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+        <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>Championship Sponsor</b></a>
+        <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>*@
+    <ul>
+        <li>
+            <a href="@Url.Action("Logout","Account")">Logout</a>
+        </li>
+
+        <li>
+            <a><small style="font-size:12px;">Welcome : @Model.Name</small></a>
+        </li>
+
+    </ul>
+
+</div>
+<div style="margin-top:420px;">
+
+    <div style="margin-left:250px;margin-right:250px;">
+
+        <a href="@Url.Action("Player","PlayerDetails")" style="font-size:16px;color:chartreuse;margin-left:190px "><b>Player</b></a>
+        <a href="@Url.Action("Referee","RefereeDetails")" style="font-size:16px;color:chartreuse;margin-left:260px"><b>Referee</b></a>
+        <a href="@Url.Action("Coach","CoachDetails")" style="font-size:16px;color:chartreuse;margin-left:260px"><b>Coach</b></a>
+
+    </div>
+    <br />
+
+    <div style="margin-left:250px;margin-right:250px;">
+
+        <a href="@Url.Action("PlayGround","PlayGroundDetails")" style="font-size:16px;color:chartreuse;margin-left:170px"><b>PlayGround</b></a>
+        <a href="@Url.Action("Team","TeamDetails")" style="font-size:16px;color:chartreuse;margin-left:250px"><b>Team</b></a>
+        <a href="@Url.Action("Championship","ChampionshipDetails")" style="font-size:16px;color:chartreuse;margin-left:250px"><b>Championship</b></a>
+
+    </div>
+    <br />
+
+
+    <div style="margin-left:250px;margin-right:250px;">
+
+        <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")" style="font-size:16px;color:chartreuse;margin-left:150px"><b>PlayGroundOwner</b></a>
+        <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")" style="font-size:16px;color:chartreuse;margin-left:200px"><b>TeamSponsor</b></a>
+        <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")" style="font-size:16px;color:chartreuse;margin-left:200px"><b>ChampionshipSponsor</b></a>
+
+    </div>
+
+</div>

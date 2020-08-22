@@ -1,0 +1,198 @@
+﻿
+
+@model FootBalls.Models.TblPlayGround
+@{
+    ViewBag.Title = "PlayGroundRegistration";
+    Layout = "~/Views/Shared/_PlayerRegistrationLayout.cshtml";
+}
+
+
+<div class="main">
+    <div class="container">
+
+        <div class="signup-content">
+            <div class="signup-img">
+                <img src="~/Content/PlayerReg/images/F7.jpg" alt="">
+            </div>
+
+            <div class="signup-form">
+                @using (Html.BeginForm("PlayGroundRegistration", "PlayGroundDetails", FormMethod.Post, new { @class = "register-form", enctype = "multipart/form-data" }))
+                {
+                    <h2>PlayGround Registration </h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, new { @class = "" })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = " Name", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @style = "color:red" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Image, new { @class = "" })
+                            <input id="Photo" title="Upload Image" type="file" name="postedFile" />
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Length, new { @class = "" })
+                            @Html.EditorFor(model => model.Length, new { htmlAttributes = new { @class = "", placeholder = " Length", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Length, "", new { @style = "color:red" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Width, new { @class = "" })
+                            @Html.EditorFor(model => model.Width, new { htmlAttributes = new { @class = "", placeholder = " Width", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Width, "", new { @style = "color:red" })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GoalLength, new { @class = "" })
+                            @Html.EditorFor(model => model.GoalLength, new { htmlAttributes = new { @class = "", placeholder = "Goal Length", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.GoalLength, "", new { @style = "color:red" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GoalWidth, new { @class = "" })
+                            @Html.EditorFor(model => model.GoalWidth, new { htmlAttributes = new { @class = "", placeholder = "Goal Width", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.GoalWidth, "", new { @style = "color:red" })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TblCity.TblRegion.TblCountry.Country, new { @class = "" })
+                            @Html.DropDownList("country", (IEnumerable<SelectListItem>)ViewBag.CountryList, "<Please Select>", new { @class = "", placeholder = "Region" })
+                            @Html.ValidationMessageFor(model => model.TblCity.TblRegion.TblCountry.Country, "", new { @style = "color:red" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TblCity.TblRegion.Region, new { @class = "" })
+                            @Html.DropDownList("region", new SelectList(string.Empty, "Value", "Text"), "<Please Select>", new { @class = "", placeholder = "Region" })
+                            @Html.ValidationMessageFor(model => model.TblCity.TblRegion.Region, "", new { @style = "color:red" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TblCity.City, new { @class = "" })
+                            @Html.DropDownList("city", new SelectList(string.Empty, "Value", "Text"), "<Please Select>", new { @class = "", placeholder = "City" })
+                            @Html.ValidationMessageFor(model => model.TblCity.City, "", new { @style = "color:red" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NoOfPlayer, new { @class = "" })
+                            @Html.EditorFor(model => model.NoOfPlayer, new { htmlAttributes = new { @class = "", placeholder = "No. Of Player", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.NoOfPlayer, "", new { @style = "color:red" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Location, new { @class = "" })
+                            @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "", placeholder = "PlayGround Location", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Location, "", new { @style = "color:red" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RentingPrice, new { @class = "" })
+                            @Html.EditorFor(model => model.RentingPrice, new { htmlAttributes = new { @class = "", placeholder = "Renting Price", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.RentingPrice, "", new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-submit">
+                        <a href="@Url.Action("PlayGround","PlayGroundDetails")"><input type="button" value="Cancel" class="submit" name="reset" id="reset" /></a>
+                        <input type="submit" value="Submit" class="submit" name="submit" id="submit" />
+                    </div>
+
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $('input[type=datetime]').datepicker({
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "-60:+0",
+
+                });
+
+            });
+
+            // for checkbox div show/hide
+            function showHideDiv(ele) {
+                var srcElement = document.getElementById(ele);
+                if (srcElement != null) {
+                    if (srcElement.style.display == "block") {
+                        srcElement.style.display = 'none';
+                    }
+                    else {
+                        srcElement.style.display = 'block';
+                    }
+                    return false;
+                }
+            }
+
+            // for region dropdown
+             $(document).ready(function () {
+
+        $("#country").change(function () {
+            $("#region").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getRegion")',
+                dataType: 'json',
+                data: { id: $("#country").val() },
+                success: function (region) {
+                    $.each(region, function (i, region) {
+                        $("#region").append('<option value="' + region.Value + '">' + region.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+            //for city dropdown
+         $(document).ready(function () {
+        $("#region").change(function () {
+            $("#city").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getCity")',
+                dataType: 'json',
+                data: { id: $("#region").val() },
+                success: function (city) {
+                    $.each(city, function (i, city) {
+                        $("#city").append('<option value="'+ city.Value + '">'+ city.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed.' + ex);
+                }
+            });
+            return false;
+        })
+            });
+
+    </script>
+
+}
