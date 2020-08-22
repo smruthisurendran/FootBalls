@@ -5,10 +5,9 @@ using System.Web;
 
 namespace FootBalls.Models
 {
-    public class PlayerAllDetails
+    public class PlayerDetailsTbl
     {
         public TblPlayer PlayerTbl { get; set; }
         public List<TblTeamMembers> TeamMembersTbl { get; set; }
-
     }
 }

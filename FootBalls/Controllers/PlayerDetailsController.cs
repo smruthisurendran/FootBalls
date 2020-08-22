@@ -176,7 +176,7 @@ namespace FootBalls.Controllers
                     ViewBag.ImageData = imgDataURL;
                 }
                 var playerResult = db.Player_tbl.Where(x => x.PlayerId == id && x.Status == 1).FirstOrDefault();
-                var model = new PlayerAllDetails { TeamMembersTbl = teamMemberResult, PlayerTbl = playerResult };
+                var model = new PlayerDetailsTbl { TeamMembersTbl = teamMemberResult, PlayerTbl = playerResult };
                 return View(model);
             }
             return View();

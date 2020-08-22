@@ -150,7 +150,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AllUsersContext.cs" />
-    <Compile Include="Models\PlayerAllDetails.cs" />
+    <Compile Include="Models\PlayerDetailsTbl.cs" />
     <Compile Include="Models\TblCoachRequest.cs" />
     <Compile Include="Models\TblChampionship.cs" />
     <Compile Include="Models\TblChampionshipRequest.cs" />
