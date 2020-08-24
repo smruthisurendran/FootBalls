@@ -29,10 +29,11 @@ else
 {
     if (Convert.ToInt32(Session["TeamSponsorId"].ToString()) == Model.TeamSponsorId)
     {
-        <div style="text-align:right;margin-right:16px;">
-            <a href="@Url.Action("PlayerS", "PlayerDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Add Player" style="background-color:whitesmoke;" /> </a>
-            <a href="@Url.Action("Coachh", "CoachDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Add Coach" style="background-color:whitesmoke;" /> </a>
-        </div>
+<div style="text-align:right;margin-right:16px;">
+    <a href="@Url.Action("RequestForTeam", "TeamDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Team Requests" style="background-color:whitesmoke;" /></a>
+    <a href="@Url.Action("PlayerS", "PlayerDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Add Player" style="background-color:whitesmoke;" /> </a>
+    <a href="@Url.Action("Coachh", "CoachDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Add Coach" style="background-color:whitesmoke;" /> </a>
+</div>
     }
 }
 

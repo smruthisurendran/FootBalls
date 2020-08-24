@@ -16,7 +16,7 @@ namespace FootBalls.Controllers
     {
         public static byte[] bytes;
         AllUsersContext db = new AllUsersContext();
-       
+
 
         // GET: PlayerDetails
         public ActionResult Index()
@@ -168,7 +168,7 @@ namespace FootBalls.Controllers
             if (id != 0)
             {
                 var teamMemberResult = db.TeamMembers_tbl.Where(x => x.PlayerId == id).ToList();
-                var img = db.Player_tbl.Where(x => x.PlayerId == id && x.Status == 1).Select(x =>x.Photo).FirstOrDefault();
+                var img = db.Player_tbl.Where(x => x.PlayerId == id && x.Status == 1).Select(x => x.Photo).FirstOrDefault();
                 if (img != null)
                 {
                     string imreBase64Data = Convert.ToBase64String(img);
@@ -223,22 +223,41 @@ namespace FootBalls.Controllers
                 int TeamId = Convert.ToInt32(teamId);
                 int PlayerId = id;
 
-                db.PlayerRequest_tbl.Add(new TblPlayerRequest
+                var TeamMemberId = db.TeamMembers_tbl.Where(x => x.TeamId == TeamId && x.PlayerId == PlayerId && x.Status == 1).Select(x => x.TeamMemberId).ToList();
+                var PlayerRequestId = db.PlayerRequest_tbl.Where(x => x.RequestFrom == TeamId && x.PlayerId == PlayerId && x.Status == 1).Select(x => x.PlayerRequestId).ToList();
+
+                if (PlayerRequestId != null && PlayerRequestId.Count != 0)
                 {
-                    PlayerId = PlayerId,
-                    RequestFrom = TeamId,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(14),
-                    Status = 1,
-                    CreatedId = 1,
-                    CreatedDate = DateTime.Now,
-                    ModifiedId = 1,
-                    ModifiedDate = DateTime.Now
 
-                });
-                db.SaveChanges();
+                    TempData["Alert"] = "Sorry. Request Already Send.";
+                    return RedirectToAction("PlayerS", "PlayerDetails", new RouteValueDictionary(new { id = TeamId }));
+                }
+   
+                else if(TeamMemberId != null && TeamMemberId.Count != 0)
+                {
+                    TempData["Alert"] = "Sorry. This Player is Already In Your Team.";
+                    return RedirectToAction("PlayerS", "PlayerDetails", new RouteValueDictionary(new { id = TeamId }));
+                }
 
-                return RedirectToAction("PlayerS", "PlayerDetails", new RouteValueDictionary(new { id = TeamId }));
+                else
+                {
+                db.PlayerRequest_tbl.Add(new TblPlayerRequest
+                    {
+                        PlayerId = PlayerId,
+                        RequestFrom = TeamId,
+                        StartDate = DateTime.Now,
+                        EndDate = DateTime.Now.AddDays(14),
+                        Status = 1,
+                        CreatedId = 1,
+                        CreatedDate = DateTime.Now,
+                        ModifiedId = 1,
+                        ModifiedDate = DateTime.Now
+
+                    });
+                    db.SaveChanges();
+                    TempData["Alert"] = "Request Send Successfully.";
+                    return RedirectToAction("PlayerS", "PlayerDetails", new RouteValueDictionary(new { id = TeamId }));
+                }
             }
             return View();
         }
@@ -269,7 +288,7 @@ namespace FootBalls.Controllers
             var result = db.PlayerRequest_tbl.SingleOrDefault(x => x.PlayerRequestId == prid);
             if (result != null)
             {
-               
+
                 if (id == 1)
                 {
                     result.Approved = id;
@@ -316,12 +335,12 @@ namespace FootBalls.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditProfile(int id,TblPlayer model,string city, HttpPostedFileBase postedFile)
+        public ActionResult EditProfile(int id, TblPlayer model, string city, HttpPostedFileBase postedFile)
         {
             List<TblCountry> countries = db.Country_tbl.ToList();
             ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
 
-           
+
             if (postedFile != null)
             {
                 using (BinaryReader br = new BinaryReader(postedFile.InputStream))
@@ -333,7 +352,7 @@ namespace FootBalls.Controllers
             if (EditPlayerList != null)
             {
                 EditPlayerList.Player = model.Player;
-                EditPlayerList.DOB = model.DOB;              
+                EditPlayerList.DOB = model.DOB;
                 EditPlayerList.Length = model.Length;
                 EditPlayerList.Weight = model.Weight;
                 EditPlayerList.PlayingFoot = model.PlayingFoot;
@@ -350,6 +369,15 @@ namespace FootBalls.Controllers
             return Content("<script>alert('Updated Successfully');location.href='';</script>");
         }
 
+        [HttpGet]
+        public ActionResult MyRequest(int id)
+        {
+            ViewBag.PlayerId = id;
+            var playerRequest = db.PlayerRequest_tbl.Where(x => x.PlayerId == id).ToList();
+            var teamRequest = db.TeamRequest_tbl.Where(x => x.RequestFrom == id && x.MemberConfirmId == 1).ToList();
+            var model = new PlayerMyRequestTbl { PlayerRequestTbl = playerRequest, TeamRequestTbl = teamRequest };
+            return View(model);
+        }
 
         [HttpGet]
         public ActionResult PlayersAwards(int id)
@@ -370,14 +398,7 @@ namespace FootBalls.Controllers
         {
             ViewBag.PlayerId = id;
             return View();
-        }
-
-        [HttpGet]
-        public ActionResult MyRequest(int id)
-        {
-            ViewBag.PlayerId = id;
-            return View();
-        }
+        }       
 
         [HttpGet]
         public ActionResult Teams(int id)

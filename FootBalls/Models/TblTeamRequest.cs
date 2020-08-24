@@ -16,6 +16,7 @@ namespace FootBalls.Models
 
         [ForeignKey("TblTeam")]
         public int TeamId { get; set; }
+        public virtual TblTeam TblTeam { get; set; }
 
         public int RequestFrom { get; set; }
 
@@ -25,6 +26,7 @@ namespace FootBalls.Models
         public DateTime EndDate { get; set; }
 
         public int Approved { get; set; }
+      
         public int Status { get; set; }
 
         public int CreatedId { get; set; }
@@ -32,5 +34,8 @@ namespace FootBalls.Models
 
         public int ModifiedId { get; set; }
         public DateTime ModifiedDate { get; set; }
+
+        public int MemberConfirmId { get; set; }
+
     }
 }

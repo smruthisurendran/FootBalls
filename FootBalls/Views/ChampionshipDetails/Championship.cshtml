@@ -8,25 +8,32 @@
     ViewBag.Title = "ChampionShip";
     Layout = "~/Views/Shared/_PlayerLayout.cshtml";
 }
-
+<div id="confirm">
+    <div class="message">Have to Login Before Registration.</div>
+    <a href="@Url.Action("Login", "Account")"><input type="button" class="yes" value="OK"></a>
+</div>
+<div id="confirm1">
+    <div class="message1">Sorry. Championship Sponsor can Register for Championship.</div>
+    <a href="@Url.Action("Championship","ChampionshipDetails")"><input type="button" class="yes" value="OK"></a>
+</div>
 @if (Session["UserId"] != null)
 {
-<div class="topnav">
-    <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
-    <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
-    <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
-    <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
-    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
-    <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
-    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
-    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
-    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
-    <ul>
-        <li>
-            <a href="@Url.Action("Logout", "Account")">Logout</a>
-        </li>
-    </ul>
-</div>
+    <div class="topnav">
+        <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+        <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+        <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+        <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+        <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+        <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+        <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+        <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+        <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+        <ul>
+            <li>
+                <a href="@Url.Action("Logout", "Account")">Logout</a>
+            </li>
+        </ul>
+    </div>
 }
 else
 {
@@ -44,16 +51,16 @@ else
                 if (Session["ChampionshipSponsorId"] != null)
                 {
                     <a href="@Url.Action("ChampionshipRegistration", "ChampionshipDetails")"><input type="button" value="Register Championship" style="background-color:aqua;" /> </a>
-                 @*   <input type="button" value="Register Championship" style="background-color:aqua;" onclick='showMsge()' /> *@
+                    @*   <input type="button" value="Register Championship" style="background-color:aqua;" onclick='showMsge()' /> *@
                 }
                 else
                 {
-                    <input type="button" value="Register Championship" style="background-color:aqua;" onclick='showMsge()' />
+                    <input type="button" value="Register Championship" style="background-color:aqua;" onclick='functionAlert1();' />
                 }
             }
             else
             {
-                <input type="button" value="Register Championship" style="background-color:aqua;" onclick='showMsg()' />
+                <input type="button" value="Register Championship" style="background-color:aqua;" onclick='functionAlert();' />
             }
         </div>
     </div>
@@ -63,11 +70,11 @@ else
 
     <b>  search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
 
-   
+
 
     <br />
     <br />
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border"class="table table-bordered table-condensed table-striped table-hover sortable">
+    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
         <thead style="border-bottom:3px solid black">
             <tr class="danger" style="border-bottom:3px solid black">
 
@@ -78,49 +85,49 @@ else
                 <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
                 <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
                 <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
-               
+
             </tr>
         </thead>
-        <tbody  id="myTable"  style="border-bottom:2px solid black;">
+        <tbody id="myTable" style="border-bottom:2px solid black;">
 
             @if (Model != null)
             {
                 foreach (var items in Model)
                 {
 
-            <tr>
+                    <tr>
 
 
-                <td><a href="@Url.Action("ChampionshipView", "ChampionshipDetails", new RouteValueDictionary(new { id = items.ChampionshipId }))">@items.Championship</a></td>
-                @if (@items.Category == "Private")
-                {
-                    <td> Private </td>
-                }
-                else if (@items.Category == "Private Sector")
-                {
-                    <td> Private Sector </td>
-                }
-                else
-                {
-                    <td> Government Institutions </td>
-                }
+                        <td><a href="@Url.Action("ChampionshipView", "ChampionshipDetails", new RouteValueDictionary(new { id = items.ChampionshipId }))">@items.Championship</a></td>
+                        @if (@items.Category == "Private")
+                        {
+                            <td> Private </td>
+                        }
+                        else if (@items.Category == "Private Sector")
+                        {
+                            <td> Private Sector </td>
+                        }
+                        else
+                        {
+                            <td> Government Institutions </td>
+                        }
 
-                <td>@items.ChampionshipStartDate</td>
-                <td>@items.ChampionshipEndDate</td>
-                <td>@items.TblCity.City</td> 
-                <td>@items.TblCity.TblRegion.Region </td>
-                <td>@items.TblCity.TblRegion.TblCountry.Country</td>   
-                
-            </tr>
+                        <td>@items.ChampionshipStartDate</td>
+                        <td>@items.ChampionshipEndDate</td>
+                        <td>@items.TblCity.City</td>
+                        <td>@items.TblCity.TblRegion.Region </td>
+                        <td>@items.TblCity.TblRegion.TblCountry.Country</td>
+
+                    </tr>
                 }
             }
         </tbody>
     </table>
 
     <br />
- Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("Championship", new { page }))   
+    @Html.PagedListPager(Model, page => Url.Action("Championship", new { page }))
 
 </div>
 

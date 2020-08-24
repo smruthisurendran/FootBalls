@@ -15,7 +15,7 @@ namespace FootBalls.Controllers
     {
         public static byte[] bytes;
         AllUsersContext db = new AllUsersContext();
-      
+
 
         // GET: CoachDetails
         public ActionResult Index()
@@ -26,7 +26,7 @@ namespace FootBalls.Controllers
         [HttpGet]
         public ActionResult Coach(int? page)
         {
-           if (Session["UserId"] != null)
+            if (Session["UserId"] != null)
             {
                 var userid = Session["UserId"].ToString();
                 int userId = Convert.ToInt32(userid);
@@ -44,7 +44,7 @@ namespace FootBalls.Controllers
                 int pageSize = 4;
                 int pageNumber = (page ?? 1);
                 return View(coachinfo.ToPagedList(pageNumber, pageSize));
-            } 
+            }
 
             return View();
 
@@ -70,9 +70,9 @@ namespace FootBalls.Controllers
         }
 
         [HttpPost]
-        public ActionResult CoachRegistration(TblCoach model, string city,  HttpPostedFileBase postedFile)
+        public ActionResult CoachRegistration(TblCoach model, string city, HttpPostedFileBase postedFile)
         {
-           var userid = Session["UserId"].ToString();
+            var userid = Session["UserId"].ToString();
 
             List<TblCountry> countries = db.Country_tbl.ToList();
             ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
@@ -163,6 +163,7 @@ namespace FootBalls.Controllers
         {
             if (id != 0)
             {
+                var teamMemberResult = db.TeamMembers_tbl.Where(x => x.CoachId == id).ToList();
                 var img = db.Coach_tbl.Where(x => x.CoachId == id && x.Status == 1).Select(x => x.Photo).FirstOrDefault();
                 if (img != null)
                 {
@@ -170,18 +171,20 @@ namespace FootBalls.Controllers
                     string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
                     ViewBag.ImageData = imgDataURL;
                 }
-                return View(db.Coach_tbl.Where(x => x.CoachId == id && x.Status == 1).FirstOrDefault());
+                var coachResult = db.Coach_tbl.Where(x => x.CoachId == id && x.Status == 1).FirstOrDefault();
+                var model = new CoachDetailsTbl { TeamMembersTbl = teamMemberResult, CoachTbl = coachResult };
+                return View(model);
             }
             return View();
         }
 
         [HttpGet]
-        public ActionResult Coachh(int? page,int id)
+        public ActionResult Coachh(int? page, int id)
         {
             if (id != 0)
             {
                 Session["TeamId"] = id;
-            } 
+            }
 
             if (Session["UserId"] != null)
             {
@@ -218,33 +221,52 @@ namespace FootBalls.Controllers
                 int TeamId = Convert.ToInt32(teamId);
                 int CoachId = id;
 
-                db.CoachRequest_tbl.Add(new TblCoachRequest
+                var TeamMemberId = db.TeamMembers_tbl.Where(x => x.TeamId == TeamId && x.CoachId == CoachId && x.Status == 1).Select(x => x.TeamMemberId).ToList();
+                var CoachRequestId = db.CoachRequest_tbl.Where(x => x.RequestFrom == TeamId && x.CoachId == CoachId && x.Status == 1).Select(x => x.CoachRequestId).ToList();
+
+                if (CoachRequestId != null && CoachRequestId.Count != 0)
                 {
-                    CoachId = CoachId,
-                    RequestFrom = TeamId,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(14),
-                    Status = 1,
-                    CreatedId = 1,
-                    CreatedDate = DateTime.Now,
-                    ModifiedId = 1,
-                    ModifiedDate = DateTime.Now
 
-                });
-                db.SaveChanges();
+                    TempData["Alert"] = "Sorry. Request Already Send.";
+                    return RedirectToAction("Coachh", "CoachDetails", new RouteValueDictionary(new { id = TeamId }));
+                }
 
-                return RedirectToAction("Coachh", "CoachDetails", new RouteValueDictionary(new { id = TeamId }));
+                else if (TeamMemberId != null && TeamMemberId.Count != 0)
+                {
+                    TempData["Alert"] = "Sorry. This Coach is Already In Your Team.";
+                    return RedirectToAction("Coachh", "CoachDetails", new RouteValueDictionary(new { id = TeamId }));
+                }
+
+                else
+                {
+                    db.CoachRequest_tbl.Add(new TblCoachRequest
+                    {
+                        CoachId = CoachId,
+                        RequestFrom = TeamId,
+                        StartDate = DateTime.Now,
+                        EndDate = DateTime.Now.AddDays(14),
+                        Status = 1,
+                        CreatedId = 1,
+                        CreatedDate = DateTime.Now,
+                        ModifiedId = 1,
+                        ModifiedDate = DateTime.Now
+
+                    });
+                    db.SaveChanges();
+                    TempData["Alert"] = "Request Send Successfully.";
+                    return RedirectToAction("Coachh", "CoachDetails", new RouteValueDictionary(new { id = TeamId }));
+                }
             }
             return View();
         }
 
         [HttpGet]
-        public ActionResult RequestForCoach(int? page,int id)
+        public ActionResult RequestForCoach(int? page, int id)
         {
             if (id != 0)
             {
                 Session["CoachId"] = id;
-                List<TblCoachRequest> coachinfo =   db.CoachRequest_tbl.Where(x => x.CoachId == id && x.Status == 1).ToList();
+                List<TblCoachRequest> coachinfo = db.CoachRequest_tbl.Where(x => x.CoachId == id && x.Status == 1).ToList();
                 if (coachinfo != null)
                 {
                     int pageSize = 8;
@@ -326,7 +348,7 @@ namespace FootBalls.Controllers
                 EditCoachList.Coach = model.Coach;
                 EditCoachList.DOB = model.DOB;
                 EditCoachList.Length = model.Length;
-                EditCoachList.Weight = model.Weight;               
+                EditCoachList.Weight = model.Weight;
                 EditCoachList.Mobile = model.Mobile;
                 if (bytes != null)
                 {
@@ -338,6 +360,16 @@ namespace FootBalls.Controllers
             //db.SaveChanges();           
 
             return Content("<script>alert('Updated Successfully');location.href='';</script>");
+        }
+
+        [HttpGet]
+        public ActionResult MyRequest(int id)
+        {
+            ViewBag.Coach = id;
+            var coachRequest = db.CoachRequest_tbl.Where(x => x.CoachId == id).ToList();
+            var teamRequest = db.TeamRequest_tbl.Where(x => x.RequestFrom == id && x.MemberConfirmId == 2).ToList();
+            var model = new CoachMyRequestTbl { CoachRequestTbl = coachRequest, TeamRequestTbl = teamRequest };
+            return View(model);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace FootBalls.Models
         public DbSet<TblCoachRequest> CoachRequest_tbl { get; set; }
         public DbSet<TblTeam> Team_tbl { get; set; }
         public DbSet<TblTeamMembers> TeamMembers_tbl { get; set; }
+        public DbSet<TblTeamRequest> TeamRequest_tbl { get; set; }
         public DbSet<TblReferee> Referee_tbl { get; set; }
         public DbSet<TblPlayGroundOwner> PlayGroundOwner_tbl { get; set; }
         public DbSet<TblPlayGround> PlayGround_tbl { get; set; }

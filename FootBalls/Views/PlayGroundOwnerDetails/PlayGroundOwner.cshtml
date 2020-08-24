@@ -8,25 +8,32 @@
     ViewBag.Title = "PlayGroundOwner";
     Layout = "~/Views/Shared/_PlayerLayout.cshtml";
 }
-
+<div id="confirm">
+    <div class="message">Have to Login Before Registration.</div>
+    <a href="@Url.Action("Login", "Account")"><input type="button" class="yes" value="OK"></a>
+</div>
+<div id="confirm1">
+    <div class="message1">Sorry. User already registered.</div>
+    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><input type="button" class="yes" value="OK"></a>
+</div>
 @if (Session["UserId"] != null)
 {
-<div class="topnav">
-    <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
-    <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
-    <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
-    <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
-    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
-    <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
-    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
-    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
-    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
-    <ul>
-        <li>
-            <a href="@Url.Action("Logout", "Account")">Logout</a>
-        </li>
-    </ul>
-</div>
+    <div class="topnav">
+        <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+        <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+        <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+        <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+        <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+        <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+        <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+        <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+        <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+        <ul>
+            <li>
+                <a href="@Url.Action("Logout", "Account")">Logout</a>
+            </li>
+        </ul>
+    </div>
 }
 else
 {
@@ -43,7 +50,7 @@ else
             {
                 if (Session["PGOwnerId"] != null)
                 {
-                    <input type="button" value="Register PlayGroundOwner" style="background-color:aqua;" onclick='showMsge()' />
+                    <input type="button" value="Register PlayGroundOwner" style="background-color:aqua;" onclick='functionAlert1();' />
                 }
                 else
                 {
@@ -53,7 +60,7 @@ else
             }
             else
             {
-                <input type="button" value="Register PlayGroundOwner" style="background-color:aqua;" onclick='showMsg()' />
+                <input type="button" value="Register PlayGroundOwner" style="background-color:aqua;" onclick='functionAlert();' />
             }
         </div>
     </div>
@@ -63,15 +70,15 @@ else
 
     <b>  search: </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
 
-    
+
     <br />
     <br />
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border"  class="table table-bordered table-condensed table-striped table-hover sortable">
+    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
         <thead style="border-bottom:3px solid black">
             <tr class="danger" style="border-bottom:3px solid black">
                 <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> PlayGroundOwner Name </th>
                 <th style="border-bottom:3px solid black" class="headerSortUp "> PlayGroundOwner Category </th>
-                
+
                 <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
                 <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
                 <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
@@ -89,7 +96,7 @@ else
 
 
                         <td><a href="@Url.Action("PlayGroundOwnerView", "PlayGroundOwnerDetails", new RouteValueDictionary(new { id = items.PGOwnerId }))">@items.Name</a></td>
-                         @if (@items.Category == "Private")
+                        @if (@items.Category == "Private")
                         {
                             <td> Private </td>
                         }
@@ -104,7 +111,7 @@ else
                         <td>@items.TblCity.City</td>
                         <td>@items.TblCity.TblRegion.Region </td>
                         <td>@items.TblCity.TblRegion.TblCountry.Country</td>
-                        
+
 
                     </tr>
                 }
@@ -113,9 +120,9 @@ else
     </table>
 
     <br />
-   Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("PlayGroundOwner", new { page })) 
+    @Html.PagedListPager(Model, page => Url.Action("PlayGroundOwner", new { page }))
 
 </div>
 

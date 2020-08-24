@@ -5,32 +5,39 @@
 
 @* @model IEnumerable<FootBalls.Models.TblPlayer>  *@
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Coach";
-                Layout = "~/Views/Shared/_PlayerLayout.cshtml";
+    ViewBag.Title = "Coach";
+    Layout = "~/Views/Shared/_PlayerLayout.cshtml";
 }
-
+<div id="confirm">
+    <div class="message">Have to Login Before Registration.</div>
+    <a href="@Url.Action("Login", "Account")"><input type="button" class="yes" value="OK"></a>
+</div>
+<div id="confirm1">
+    <div class="message1">Sorry. User already registered.</div>
+    <a href="@Url.Action("Coach", "CoachDetails")"><input type="button" class="yes" value="OK"></a>
+</div>
 @if (Session["UserId"] != null)
 {
-<div class="topnav">
-    <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
-    <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
-    <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
-    <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
-    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
-    <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
-    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
-    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
-    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+    <div class="topnav">
+        <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+        <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+        <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+        <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+        <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+        <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+        <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+        <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+        <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
 
-    <ul>
-        <li>
-            <a href="@Url.Action("Logout", "Account")">Logout</a>
-        </li>
-    </ul>
+        <ul>
+            <li>
+                <a href="@Url.Action("Logout", "Account")">Logout</a>
+            </li>
+        </ul>
 
-</div>
+    </div>
 }
 else
 {
@@ -48,7 +55,7 @@ else
             {
                 if (Session["CoachId"] != null)
                 {
-                    <input type="button" value="Register Coach" style="background-color:aqua;" onclick='showMsge()' />
+                    <input type="button" value="Register Coach" style="background-color:aqua;" onclick='functionAlert1();' />
                 }
                 else
                 {
@@ -58,7 +65,7 @@ else
             }
             else
             {
-                <input type="button" value="Register Coach" style="background-color:aqua;" onclick='showMsg()' />
+                <input type="button" value="Register Coach" style="background-color:aqua;" onclick='functionAlert();' />
             }
         </div>
     </div>
@@ -68,11 +75,11 @@ else
 
     <b>  search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
 
-    
+
 
     <br />
     <br />
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border"  class="table table-bordered table-condensed table-striped table-hover sortable">
+    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
         <thead style="border-bottom:3px solid black">
             <tr class="danger" style="border-bottom:3px solid black">
 
@@ -96,23 +103,23 @@ else
                 foreach (var items in Model)
                 {
 
-            <tr>
+                    <tr>
 
 
-                <td><a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))">@items.Coach</a></td>
-                <td>@items.Weight</td>
-                <td>@items.Length</td>
+                        <td><a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))">@items.Coach</a></td>
+                        <td>@items.Weight</td>
+                        <td>@items.Length</td>
 
 
-                <td>@items.TblCity.City</td>
-                <td>@items.TblCity.TblRegion.Region </td>
-                <td>@items.TblCity.TblRegion.TblCountry.Country</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                        <td>@items.TblCity.City</td>
+                        <td>@items.TblCity.TblRegion.Region </td>
+                        <td>@items.TblCity.TblRegion.TblCountry.Country</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
 
-                @*<td><a href="#" style="color:darkmagenta;"><input type="button" style="background-color:#41b03e;" value="Request For Coach" /></a></td>*@
-            </tr>
+                        @*<td><a href="#" style="color:darkmagenta;"><input type="button" style="background-color:#41b03e;" value="Request For Coach" /></a></td>*@
+                    </tr>
                 }
             }
         </tbody>
@@ -128,16 +135,7 @@ else
 
 <script type="text/javascript">
 
-            function showMsg()
-            {
-                alert('Have to Login Before Registration');
-                window.location = '@Url.Action("Login","Account")';
-            }
-
-    function showMsge() {
-        alert('Sorry. User already registered');
-        window.location = '@Url.Action("Coach", "CoachDetails")';
-    }
+          
            function searchTable() {
                 var input, filter, found, table, tr, td, i, j;
                 input = document.getElementById("myInput");

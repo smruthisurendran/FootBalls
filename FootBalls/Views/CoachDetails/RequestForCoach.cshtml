@@ -61,12 +61,12 @@ else
                 foreach (var items in Model)
                 {
             <tr>
-                <td>@items.TblTeam.TeamName </td>
+                <td><a href="@Url.Action("TeamView", "TeamDetails", new RouteValueDictionary(new { id =items.TblTeam.TeamId }))">@items.TblTeam.TeamName</a></td>
                 <td>@items.TblTeam.TblTeamSponsor.Name </td>
                 <td>@items.StartDate </td>
                 <td>@items.EndDate </td>
                 <td><a href="@Url.Action("RequestStatusUpdate", "CoachDetails", new RouteValueDictionary(new { id = 1,prid =items.CoachRequestId }))"><input type="button" class=" btn btn-info" value="Approve" onclick='ApproveMsg()' style="background-color:lawngreen;" /></a></td>
-                <td><a href="@Url.Action("RequestStatusUpdate", "CoachDetails", new RouteValueDictionary(new { id = 1,prid =items.CoachRequestId }))"><input type="button" class=" btn btn-info" value="Reject"  onclick='RejectMsg()' style="background-color:red;" /> </a></td>
+                <td><a href="@Url.Action("RequestStatusUpdate", "CoachDetails", new RouteValueDictionary(new { id = 2,prid =items.CoachRequestId }))"><input type="button" class=" btn btn-info" value="Reject"  onclick='RejectMsg()' style="background-color:red;" /> </a></td>
 
             </tr>
 

@@ -150,7 +150,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AllUsersContext.cs" />
+    <Compile Include="Models\CoachDetailsTbl.cs" />
+    <Compile Include="Models\CoachMyRequestTbl.cs" />
     <Compile Include="Models\PlayerDetailsTbl.cs" />
+    <Compile Include="Models\PlayerMyRequestTbl.cs" />
     <Compile Include="Models\TblCoachRequest.cs" />
     <Compile Include="Models\TblChampionship.cs" />
     <Compile Include="Models\TblChampionshipRequest.cs" />
@@ -765,7 +768,9 @@
     <Content Include="Views\PlayerDetails\EditProfile.cshtml" />
     <Content Include="Views\CoachDetails\EditProfile.cshtml" />
     <Content Include="Views\RefereeDetails\EditProfile.cshtml" />
-    <Content Include="Views\Shared\PlayerdetailsPage\_PlayerTeams.cshtml" />
+    <Content Include="Views\TeamDetails\Teams.cshtml" />
+    <Content Include="Views\TeamDetails\RequestForTeam.cshtml" />
+    <Content Include="Views\CoachDetails\MyRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

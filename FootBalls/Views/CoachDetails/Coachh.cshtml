@@ -9,26 +9,35 @@
     Layout = "~/Views/Shared/_PlayerLayout.cshtml";
 }
 
+@if (TempData["Alert"] != null)
+{
+    string str = TempData["Alert"].ToString();
+
+    <script>
+alert('@Html.Raw(@str)');
+    </script>
+}
+
 @if (Session["UserId"] != null)
 {
-<div class="topnav">
-    <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
-    <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
-    <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
-    <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
-    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
-    <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
-    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
-    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
-    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+    <div class="topnav">
+        <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+        <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+        <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+        <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+        <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+        <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+        <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+        <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+        <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
 
-    <ul>
-        <li>
-            <a href="@Url.Action("Logout", "Account")">Logout</a>
-        </li>
-    </ul>
+        <ul>
+            <li>
+                <a href="@Url.Action("Logout", "Account")">Logout</a>
+            </li>
+        </ul>
 
-</div>
+    </div>
 }
 else
 {
@@ -43,21 +52,21 @@ else
         <div class="topnav1">
             <h4>Coach List</h4>
             @*@if (Session["UserId"] != null)
-            {
-                if (Session["CoachId"] != null)
                 {
-                    <input type="button" value="Register Coach" style="background-color:aqua;" onclick='showMsge()' />
+                    if (Session["CoachId"] != null)
+                    {
+                        <input type="button" value="Register Coach" style="background-color:aqua;" onclick='showMsge()' />
+                    }
+                    else
+                    {
+
+                        <a href="@Url.Action("CoachRegistration", "CoachDetails")"><input type="button" value="Register Coach" style="background-color:aqua;" /> </a>
+                    }
                 }
                 else
                 {
-               
-                    <a href="@Url.Action("CoachRegistration", "CoachDetails")"><input type="button" value="Register Coach" style="background-color:aqua;" /> </a>
-                }
-            }
-            else
-            {
-                <input type="button" value="Register Coach" style="background-color:aqua;" onclick='showMsg()' />
-            }*@
+                    <input type="button" value="Register Coach" style="background-color:aqua;" onclick='showMsg()' />
+                }*@
         </div>
     </div>
 </div>
@@ -66,10 +75,10 @@ else
 
     <b> search: </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
 
-   
+
     <br />
     <br />
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border"  class="table table-bordered table-condensed table-striped table-hover sortable">
+    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
         <thead style="border-bottom:3px solid black">
             <tr class="danger" style="border-bottom:3px solid black">
 
@@ -108,7 +117,7 @@ else
                         <td></td>
                         <td></td>
 
-                        <td><a href="@Url.Action("CoachRequest", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))" style="color:darkmagenta;"><input type="button" value="Request For Coach" style="background-color:#663507;" onclick='showMsg()' /></a></td>
+                        <td><a href="@Url.Action("CoachRequest", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))" style="color:darkmagenta;"><input type="button" value="Request For Coach" style="background-color:#663507;"  /></a></td>
                     </tr>
                 }
             }

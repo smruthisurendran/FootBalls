@@ -9,24 +9,33 @@
     Layout = "~/Views/Shared/_PlayerLayout.cshtml";
 }
 
+<div id="confirm">
+    <div class="message">Have to Login Before Registration.</div>
+    <a href="@Url.Action("Login", "Account")"><input type="button" class="yes" value="OK"></a>
+</div>
+<div id="confirm1">
+    <div class="message1">Sorry. PlayGround Owner Can Register For PlayGround.</div>
+    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><input type="button" class="yes" value="OK"></a>
+</div>
+
 @if (Session["UserId"] != null)
 {
-<div class="topnav">
-    <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
-    <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
-    <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
-    <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
-    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
-    <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
-    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
-    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
-    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
-    <ul>
-        <li>
-            <a href="@Url.Action("Logout", "Account")">Logout</a>
-        </li>
-    </ul>
-</div>
+    <div class="topnav">
+        <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+        <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+        <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+        <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+        <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+        <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+        <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+        <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+        <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+        <ul>
+            <li>
+                <a href="@Url.Action("Logout", "Account")">Logout</a>
+            </li>
+        </ul>
+    </div>
 }
 else
 {
@@ -49,22 +58,22 @@ else
                 {
                     @*<a class="btn btn-success d-none d-lg-block m-l-15" href="@Url.Action("PlayerRegistration", "PlayerDetails")"> <b> <input type="button" name="submit" value="Register Player" style="background-color:coral;" /> </b></a>*@
 
-                    <input type="button" value="Register PlayGround" style="background-color:aqua;" onclick='showMsge()' />
+                    <input type="button" value="Register PlayGround" style="background-color:aqua;" onclick='functionAlert1();' />
                 }
             }
             else
             {
-                <input type="button" value="Register PlayGround" style="background-color:aqua;" onclick='showMsg()' />
+                <input type="button" value="Register PlayGround" style="background-color:aqua;" onclick='functionAlert();' />
             }
         </div>
-     </div>
- </div>
+    </div>
+</div>
 <br />
 <div class="table-responsive">
 
     <b>  search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
 
-   
+
     <br />
     <br />
     <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
@@ -84,7 +93,7 @@ else
                 <th style="border-bottom:3px solid black"> Working Days</th>
             </tr>
         </thead>
-        <tbody id="myTable"  style="border-bottom:2px solid black;">
+        <tbody id="myTable" style="border-bottom:2px solid black;">
 
             @if (Model != null)
             {
@@ -107,7 +116,7 @@ else
                         <td>@items.RentingPrice</td>
                         <td></td>
                         <td></td>
-                        
+
                     </tr>
                 }
             }
@@ -115,9 +124,9 @@ else
     </table>
 
     <br />
-  @*  Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @*  Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("PlayGround", new { page }))  *@
+        @Html.PagedListPager(Model, page => Url.Action("PlayGround", new { page }))  *@
 
 </div>
 

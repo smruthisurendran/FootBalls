@@ -36,27 +36,23 @@ else
     </div> *@
 @if (Session["UserId"] != null && Convert.ToInt32(Session["UserId"].ToString()) == Model.PlayerTbl.UserId)
 {
-    <div style="text-align:right;margin-right:16px;">
+<div style="text-align:right;margin-right:16px;">
 
-        <a href="@Url.Action("Teams", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Teams" style="background-color:whitesmoke;" /> </a>
+    @*<a href="@Url.Action("Championship", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-outline-info" value="Registered ChampionShips" style="background-color:whitesmoke;" /> </a>
 
+    <a href="@Url.Action("Matches", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Matches" style="background-color:whitesmoke;" /> </a>
 
-        <a href="@Url.Action("Championship", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-outline-info" value="Registered ChampionShips" style="background-color:whitesmoke;" /> </a>
+    <a href="@Url.Action("PlayersAwards", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Awards" style="background-color:whitesmoke;" /> </a>*@
 
+    <a href="@Url.Action("Teams", "TeamDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId,memberConfirmId = 1 }))"> <input type="button" class="btn btn-info" value="Add Team" style="background-color:whitesmoke;" /> </a>
 
-        <a href="@Url.Action("Matches", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Matches" style="background-color:whitesmoke;" /> </a>
+    <a href="@Url.Action("RequestForPlayer", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Requests" style="background-color:whitesmoke;" /></a>
 
-
-        <a href="@Url.Action("PlayersAwards", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Awards" style="background-color:whitesmoke;" /> </a>
-
-
-        <a href="@Url.Action("RequestForPlayer", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class="btn btn-info" value="Players Requests" style="background-color:whitesmoke;" /></a>
+    <a href="@Url.Action("MyRequest", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class=" btn btn-info" value="My Request" style="background-color:whitesmoke;" /> </a>
 
 
-        <a href="@Url.Action("MyRequest", "PlayerDetails", new RouteValueDictionary(new { id = Model.PlayerTbl.PlayerId }))"> <input type="button" class=" btn btn-info" value="My Request" style="background-color:whitesmoke;" /> </a>
 
-
-    </div>
+</div>
 }
 <br />
 

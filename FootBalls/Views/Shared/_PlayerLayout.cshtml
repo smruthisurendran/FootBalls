@@ -9,31 +9,30 @@
 
     @Scripts.Render("~/bundles/modernizr")
     <style>
-        table{
+        table {
             border-spacing: 10px;
             border: 1px solid black;
-            
             text-align: center;
-          }
-        .headerSortUp:after
-        {
+        }
+
+        .headerSortUp:after {
             content: '';
-            position:relative;
-            left:2px;
-            border:8px solid transparent;
+            position: relative;
+            left: 2px;
+            border: 8px solid transparent;
             bottom: 15px;
             border-bottom-color: black;
-            padding-right:10px;
+            padding-right: 10px;
         }
-        .headerSortDown:decrement
-        {
-            content:'';
-            position:relative;
-            left:2px;
-            border:8px solid transparent;
+
+        .headerSortDown:decrement {
+            content: '';
+            position: relative;
+            left: 2px;
+            border: 8px solid transparent;
             top: 10px;
             border-top-color: black;
-            padding-right:10px;
+            padding-right: 10px;
         }
 
         body {
@@ -87,23 +86,96 @@
                 font-size: 12px;
             }
 
-            ul {
-                list-style-type:none;
-                margin:auto;
-                font-family: Arial, Helvetica, sans-serif;
-            }
+        ul {
+            list-style-type: none;
+            margin: auto;
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-            li {
-                float:right;
-            }
+        li {
+            float: right;
+        }
 
             li a {
-                float:right;
-                color:#f2f2f2;
-                text-align:center;
-                padding:14px 16px;
-                text-decoration:none;
-                font-size:12px;
+                float: right;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                font-size: 12px;
+            }
+
+      /*-------------------------------------*/
+        #confirm {
+            display: none;
+            background-color: white;
+            border: 1px solid #aaa;
+            position: fixed;
+            width: 450px;
+            height: 140px;
+            left: 40%;
+            margin-left: -100px;
+            padding: 6px 8px 8px;
+            box-sizing: border-box;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+            #confirm input {
+                background-color: #4287f5;
+                display: inline-block;
+                border-radius: 5px;
+                border: 1px solid #aaa;
+                padding: 5px;
+                text-align: center;
+                width: 80px;
+                margin-left: 335px;
+                margin-top: 45px;
+                cursor: pointer;
+            }
+
+        #confirm .message {
+            text-align:left;
+            margin-top:30px;
+            color: red;
+            font-size:12px;
+        }
+
+        /*-------------------------------------*/
+        #confirm1 {
+            display: none;
+            background-color: white;
+            border: 1px solid #aaa;
+            position: fixed;
+            width: 450px;
+            height: 140px;
+            left: 40%;
+            margin-left: -100px;
+            padding: 6px 8px 8px;
+            box-sizing: border-box;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+            #confirm1 input {
+                background-color: #4287f5;
+                display: inline-block;
+                border-radius: 5px;
+                border: 1px solid #aaa;
+                padding: 5px;
+                text-align: center;
+                width: 80px;
+                margin-left: 335px;
+                margin-top: 45px;
+                cursor: pointer;
+            }
+
+            #confirm1 .message1 {
+                text-align: left;
+                margin-top: 30px;
+                color: red;
+                /*color: #426cf5;*/
+                font-size: 12px;
             }
     </style>
     
@@ -124,6 +196,24 @@
 
     <script type="text/javascript">
 
+        function functionAlert(msg, myYes) {
+            var confirmBox = $("#confirm");
+            confirmBox.find(".message").text(msg);
+            confirmBox.find(".yes").unbind().click(function () {
+                confirmBox.hide();
+            });
+            confirmBox.find(".yes").click(myYes);
+            confirmBox.show();
+        }
+        function functionAlert1(msg, myYes) {
+            var confirmBox = $("#confirm1");
+            confirmBox.find(".message1").text(msg);
+            confirmBox.find(".yes").unbind().click(function () {
+                confirmBox.hide();
+            });
+            confirmBox.find(".yes").click(myYes);
+            confirmBox.show();
+        }
         function showMsg1() {
                 alert('You Need to Login First');
                 window.location = '@Url.Action("Login","Account")';

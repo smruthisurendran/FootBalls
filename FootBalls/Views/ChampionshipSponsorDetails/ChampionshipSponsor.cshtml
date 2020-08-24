@@ -10,27 +10,34 @@
     ViewBag.Title = "Championship Sponsor";
     Layout = "~/Views/Shared/_PlayerLayout.cshtml";
 }
-
+<div id="confirm">
+    <div class="message">Have to Login Before Registration.</div>
+    <a href="@Url.Action("Login", "Account")"><input type="button" class="yes" value="OK"></a>
+</div>
+<div id="confirm1">
+    <div class="message1">Sorry. User already registered.</div>
+    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><input type="button" class="yes" value="OK"></a>
+</div>
 @if (Session["UserId"] != null)
 {
-<div class="topnav">
-    <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
-    <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
-    <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
-    <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
-    <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
-    <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
-    <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
-    <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
-    <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
+    <div class="topnav">
+        <a href="@Url.Action("Player","PlayerDetails")"><b>Player</b></a>
+        <a href="@Url.Action("Referee","RefereeDetails")"><b>Referee</b></a>
+        <a href="@Url.Action("Coach","CoachDetails")"><b>Coach</b></a>
+        <a href="@Url.Action("Team","TeamDetails")"><b>Team</b></a>
+        <a href="@Url.Action("PlayGround","PlayGroundDetails")"><b>PlayGround</b></a>
+        <a href="@Url.Action("Championship","ChampionshipDetails")"><b>Championship</b></a>
+        <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")"><b>PlayGroundOwner</b></a>
+        <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")"><b>TeamSponsor</b></a>
+        <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")"><b>ChampionshipSponsor</b></a>
 
-    <ul>
-        <li>
-            <a href="@Url.Action("Logout", "Account")">Logout</a>
-        </li>
-    </ul>
+        <ul>
+            <li>
+                <a href="@Url.Action("Logout", "Account")">Logout</a>
+            </li>
+        </ul>
 
-</div>
+    </div>
 }
 else
 {
@@ -48,7 +55,7 @@ else
             {
                 if (Session["ChampionshipSponsorId"] != null)
                 {
-                    <input type="button" value="Register ChampionshipSponsor" style="background-color:aqua;" onclick='showMsge()' />
+                    <input type="button" value="Register ChampionshipSponsor" style="background-color:aqua;" onclick='functionAlert1();' />
                 }
                 else
                 {
@@ -58,7 +65,7 @@ else
             }
             else
             {
-                <input type="button" value="Register ChampionshipSponsor" style="background-color:aqua;" onclick='showMsg()' />
+                <input type="button" value="Register ChampionshipSponsor" style="background-color:aqua;" onclick='functionAlert();' />
             }
         </div>
     </div>
@@ -68,11 +75,11 @@ else
 
     <b>  Search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
 
-    
+
 
     <br />
     <br />
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border"  class="table table-bordered table-condensed table-striped table-hover sortable">
+    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
         <thead style="border-bottom:3px solid black">
             <tr class="danger" style="border-bottom:3px solid black">
 
@@ -89,33 +96,33 @@ else
                 foreach (var items in Model)
                 {
 
-            <tr>
+                    <tr>
 
 
-                <td><a href="@Url.Action("ChampionshipSponsorView", "ChampionshipSponsorDetails", new RouteValueDictionary(new { id = items.ChampionshipSponsorId }))">@items.Name</a></td>
-                @if (@items.Category == "Private")
-                {
-                    <td> Private </td>
-                }
-                else if (@items.Category == "Private Sector")
-                {
-                    <td> Private Sector </td>
-                }
-                else
-                {
-                    <td> Government Institutions </td>
-                }
-                <td></td>
-            </tr>
+                        <td><a href="@Url.Action("ChampionshipSponsorView", "ChampionshipSponsorDetails", new RouteValueDictionary(new { id = items.ChampionshipSponsorId }))">@items.Name</a></td>
+                        @if (@items.Category == "Private")
+                        {
+                            <td> Private </td>
+                        }
+                        else if (@items.Category == "Private Sector")
+                        {
+                            <td> Private Sector </td>
+                        }
+                        else
+                        {
+                            <td> Government Institutions </td>
+                        }
+                        <td></td>
+                    </tr>
                 }
             }
         </tbody>
     </table>
 
     <br />
-  Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("ChampionshipSponsor", new { page }))  
+    @Html.PagedListPager(Model, page => Url.Action("ChampionshipSponsor", new { page }))
 
 </div>
 

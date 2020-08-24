@@ -1,9 +1,8 @@
-﻿
-@model PagedList.IPagedList<FootBalls.Models.TblPlayerRequest>
+﻿@model PagedList.IPagedList<FootBalls.Models.TblTeamRequest>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "PlayerRequests";
+    ViewBag.Title = "TeamRequests";
     Layout = "~/Views/Shared/_PlayerLayout.cshtml";
 }
 
@@ -25,10 +24,10 @@ else
 }
 
 <div class="topnav1">
-    <h4>Players Request Details</h4>
-    <a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = ViewBag.PlayerId }))" style="text-decoration:none;">Players Detail </a>
-    <a>/</a>
-    <a href="@Url.Action("Player", "PlayerDetails")" style="text-decoration:none;color:whitesmoke;">Home</a>
+    <h4>Team Request Details</h4>
+    <a href="@Url.Action("TeamView", "TeamDetails", new RouteValueDictionary(new { id = ViewBag.TeamId }))" style="text-decoration:none;">Team Details </a>
+
+    <a href="@Url.Action("Team", "TeamDetails")" style="text-decoration:none;color:whitesmoke;">Home</a>
 
 </div>
 
@@ -48,13 +47,10 @@ else
 
 
         <tr style="border-bottom:3px solid black;">
-            <th style="border-bottom:3px solid black"> SN </th>
-            <th style="border-bottom:3px solid black"> Type </th>
+            <th style="border-bottom:3px solid black"> Request From </th>
+            <th style="border-bottom:3px solid black"> Position  </th>
             <th style="border-bottom:3px solid black"> Starting Date </th>
             <th style="border-bottom:3px solid black"> End Date </th>
-            <th style="border-bottom:3px solid black"> Value </th>
-            <th style="border-bottom:3px solid black"> Teams </th>
-            <th style="border-bottom:3px solid black"> Sponsor </th>
             <th style="border-bottom:3px solid black" colspan="2"> Status </th>
         </tr>
 
@@ -64,22 +60,27 @@ else
             {
                 foreach (var items in Model)
                 {
-                    <tr>
-                        <td> </td>
-                        <td> </td>
-                        <td>@items.StartDate </td>
-                        <td>@items.EndDate </td>
-                        <td> </td>
-                        <td><a href="@Url.Action("TeamView", "TeamDetails", new RouteValueDictionary(new { id =items.TblTeam.TeamId }))">@items.TblTeam.TeamName</a> </td>
-                        <td>@items.TblTeam.TblTeamSponsor.Name </td>
-                        <td><a href="@Url.Action("RequestStatusUpdate", "PlayerDetails", new RouteValueDictionary(new { id = 1,prid =items.PlayerRequestId }))"><input type="button" class=" btn btn-info" onclick='ApproveMsg()' value="Approve" style="background-color:lawngreen;" /></a></td>
-                        <td><a href="@Url.Action("RequestStatusUpdate", "PlayerDetails", new RouteValueDictionary(new { id = 2,prid =items.PlayerRequestId }))"><input type="button" class=" btn btn-info" onclick='RejectMsg()' value="Reject" style="background-color:red;" /> </a></td>
+            <tr>
+                <td></td>
+                @if(items.MemberConfirmId == 1)
+                {
+                <td>Player</td>
+                }
+                else
+                {
+                <td>Coach</td>
+                }
 
-                    </tr>
+                <td>@items.StartDate </td>
+                <td>@items.EndDate </td>
+                <td><a href="@Url.Action("RequestStatusUpdate", "TeamDetails", new RouteValueDictionary(new { id = 1,trid =items.TeamRequestId,memberConfirmId = items.MemberConfirmId }))"><input type="button" class=" btn btn-info" value="Approve" onclick='ApproveMsg()' style="background-color:lawngreen;" /></a></td>
+                <td><a href="@Url.Action("RequestStatusUpdate", "TeamDetails", new RouteValueDictionary(new { id = 2,trid =items.TeamRequestId,memberConfirmId = items.MemberConfirmId }))"><input type="button" class=" btn btn-info" value="Reject" onclick='RejectMsg()' style="background-color:red;" /> </a></td>
+
+            </tr>
+
 
                 }
             }
-
             else
             {
                 <tr style="width:100px; margin: 0;">
@@ -160,20 +161,18 @@ else
     <br />
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("PlayerForRequest", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("RequestForTeam", new { page }))
 </div>
-
-<br />
-
-<a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = ViewBag.PlayerId }))" style="text-decoration:none;color:whitesmoke;"><input type="button" value="Back" class="btn-outline-danger" /></a>
 <script type="text/javascript">
 
-    function ApproveMsg() {
-        alert('Request Approved');
-        window.location = '';
+            function ApproveMsg()
+            {
+                alert('Request Approved');
+                window.location = '';
     }
-    function RejectMsg() {
-        alert('Request Rejected');
-        window.location = '';
+     function RejectMsg()
+            {
+                alert('Request Rejected');
+                window.location = '';
     }
 </script>

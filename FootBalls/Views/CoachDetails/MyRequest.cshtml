@@ -1,5 +1,5 @@
 ﻿
-@model  FootBalls.Models.PlayerMyRequestTbl
+@model  FootBalls.Models.CoachMyRequestTbl
 @{
     ViewBag.Title = "My Request";
     Layout = "~/Views/Shared/_PlayerLayout.cshtml";
@@ -24,9 +24,9 @@ else
 
 <div class="topnav1">
     <h4>My Request</h4>
-    <a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = ViewBag.PlayerId }))" style="text-decoration:none;">Players Detail </a>
+    <a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = ViewBag.CoachId }))" style="text-decoration:none;">Coach Detail </a>
     <a>/</a>
-    <a href="@Url.Action("Player", "PlayerDetails")" style="text-decoration:none;color:whitesmoke;">Home</a>
+    <a href="@Url.Action("Coach", "CoachDetails")" style="text-decoration:none;color:whitesmoke;">Home</a>
 
 </div>
 
@@ -42,6 +42,7 @@ else
     </div> *@
 
 <br />
+
 <div class="table-responsive">
     <h4>Request From Team</h4>
     <table style="width:50%;">
@@ -61,7 +62,7 @@ else
         <tbody>
             @if (Model != null)
             {
-                foreach (var items in Model.PlayerRequestTbl)
+                foreach (var items in Model.CoachRequestTbl)
                 {
                     <tr>
                         <td>@items.CreatedDate </td>
@@ -163,4 +164,4 @@ else
 </div>
 <br />
 
-<a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = ViewBag.PlayerId }))" style="text-decoration:none;color:whitesmoke;"><input type="button" value="Back" class="btn-outline-danger" /></a>
+<a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = ViewBag.Coach }))" style="text-decoration:none;color:whitesmoke;"><input type="button" value="Back" class="btn-outline-danger" /></a>
