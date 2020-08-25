@@ -15,7 +15,9 @@ namespace FootBalls.Controllers
     public class PlayerDetailsController : Controller
     {
         public static byte[] bytes;
+        public static List<TblPlayer> searchResult = null;
         AllUsersContext db = new AllUsersContext();
+
 
 
         // GET: PlayerDetails
@@ -53,6 +55,55 @@ namespace FootBalls.Controllers
 
             return View();
         }
+
+
+        [HttpPost]
+        public ActionResult Player(int? page,string name,string weight,string height,string playingplace,string playingfoot)
+        {
+            if(name != null && name != "" && weight != null && weight != "" && height != null && height != "")
+            {
+                searchResult = db.Player_tbl.ToList();
+            }
+            if (name != null && name != "")
+            {
+                 searchResult = searchResult.Where(x => x.Player.ToLower() == name.ToLower()).ToList();
+            }
+            if(weight != null && weight != "")
+            {
+                int Weight = Convert.ToInt32(weight);
+                searchResult = searchResult.Where(x => x.Weight == Weight).ToList();
+            }
+            if(height != null && height != "")
+            {
+                int Height = Convert.ToInt32(height);
+                searchResult = searchResult.Where(x => x.Length == Height).ToList();
+            }
+           
+            if (Session["UserId"] != null)
+            {
+                var userid = Session["UserId"].ToString();
+                int userId = Convert.ToInt32(userid);
+                var playerid = db.Player_tbl.Where(x => x.UserId == userId).Select(x => x.PlayerId).FirstOrDefault();
+                if (playerid != 0)
+                {
+                    Session["PlayerId"] = playerid;
+                }
+            }
+
+            //List<TblPlayer> playerinfo = db.Player_tbl.OrderByDescending(x => x.CreatedDate).ToList();
+
+            //if (playerinfo != null)
+            //{
+            //    int pageSize = 4;
+            //    int pageNumber = (page ?? 1);
+            //    return View(playerinfo.ToPagedList(pageNumber, pageSize));
+            //}
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+            return View(searchResult.ToPagedList(pageNumber,pageSize));
+        }
+
+
 
         [HttpGet]
         public ActionResult PlayerRegistration()
