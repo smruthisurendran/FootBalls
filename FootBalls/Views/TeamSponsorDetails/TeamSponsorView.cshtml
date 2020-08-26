@@ -21,10 +21,13 @@ else
     </div>
 }
 
-<div class="topnav1">
-    <h4>Welcome to @Model.Name Details!!</h4>
-    <a href="@Url.Action("TeamSponsor", "TeamSponsorDetails")" style="text-decoration:none;color:whitesmoke;">>>Home</a>
-</div>
+    <div class="topnav1">
+        <h4>Welcome to @Model.Name Details!!</h4>
+        @if (Session["UserId"] != null && Convert.ToInt32(Session["UserId"].ToString()) == Model.UserId)
+        {
+            <a href="@Url.Action("EditProfile", "TeamSponsorDetails", new RouteValueDictionary(new { id = Model.TeamSponsorId }))"> <input type="button" class="btn btn-info" value="Edit Profile" style="background-color:whitesmoke;" /> </a>
+        }
+    </div>
 <br />
 <br />
 

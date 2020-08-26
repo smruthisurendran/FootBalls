@@ -20,11 +20,16 @@ namespace FootBalls.Models
         public int? ChampionshipSponsorId { get; set; }
         public virtual TblChampionshipSponsor TblChampionshipSponsor { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Championship Name")]
         public string Championship { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Championship Category")]
         public string Category { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Start Date")]
         public DateTime ChampionshipStartDate { get; set; }
+
+        [Required(ErrorMessage = "Please Enter End Date")]
         public DateTime ChampionshipEndDate { get; set; }
 
         public int SponsorId { get; set; }

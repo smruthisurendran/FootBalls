@@ -14,6 +14,8 @@ namespace FootBalls.Controllers
     public class ChampionshipDetailsController : Controller
     {
         AllUsersContext db = new AllUsersContext();
+        public static byte[] bytes;
+
 
         // GET: ChampionshipDetails
         public ActionResult Index()
@@ -150,6 +152,54 @@ namespace FootBalls.Controllers
             }
             return View();
         }
+
+
+        public ActionResult EditProfile(int id)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            if (id != 0)
+            {
+                return View(db.Championship_tbl.Where(x => x.ChampionshipId == id && x.Status == 1).FirstOrDefault());
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(int id, TblChampionship model, string city, HttpPostedFileBase postedFile)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            if (postedFile != null)
+            {
+                using (BinaryReader br = new BinaryReader(postedFile.InputStream))
+                {
+                    bytes = br.ReadBytes(postedFile.ContentLength);
+                }
+            }
+            var EditChampionshipList = db.Championship_tbl.Where(x => x.ChampionshipId == id && x.Status == 1).FirstOrDefault();
+            if (EditChampionshipList != null)
+            {
+                EditChampionshipList.Championship = model.Championship;
+                EditChampionshipList.Category = model.Category;
+                EditChampionshipList.ChampionshipStartDate = model.ChampionshipStartDate;
+                EditChampionshipList.ChampionshipEndDate = model.ChampionshipEndDate;
+
+                if (bytes != null)
+                {
+                    EditChampionshipList.Image = bytes;
+                }
+                db.SaveChanges();
+            }
+            //db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+            //db.SaveChanges();           
+
+            return Content("<script>alert('Updated Successfully');location.href='ChampionshipView';</script>");
+        }
+
+
 
         [HttpGet]
         public ActionResult Championships(int? page,int id)

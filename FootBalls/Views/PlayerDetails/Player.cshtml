@@ -67,35 +67,50 @@ else
         </div>
     </div>
 </div>
-<br />
 
-
-<b>Search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
-
-
+@*<b>Search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />*@
 
 <br />
 <br />
 @using (Html.BeginForm("Player", "PlayerDetails", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
+    <table cellspacing="3" cellpadding="2" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
         <thead style="border-bottom:3px solid black">
-            <tr>
-                <th> Search </th>
-                <th>@Html.TextBox("name")</th>
+            <tr style="border:3px solid black">
+                @*<th> Search </th>*@
+                <th style="border-bottom:3px solid black">@Html.TextBox("name")</th>
                 <th>@Html.TextBox("weight")</th>
                 <th>@Html.TextBox("height")</th>
-                <th>@Html.TextBox("playingfoot")</th>
-                <th>@Html.TextBox("city")</th>
-                <th>@Html.TextBox("region")</th>
-                <th>@Html.TextBox("country")</th>
-                <th>@Html.TextBox("playingplace")</th>
-                <th> <input type="submit" value="Search" style="background-color:aqua;" /></th>
+                <th>
+
+                    @Html.DropDownList("playingfoot", new List<SelectListItem>()
+                               {
+                                   new SelectListItem(){ Text = "Right", Value="1"},
+                                   new SelectListItem(){ Text = "Left", Value="2"},
+                                   new SelectListItem(){ Text = "Both", Value="3"}
+                               }, "<Please Select>", new { @class = "mdb-select md-form" })                
+                </th>
+                <th>
+                    @Html.TextBox("city")
+                    @*@Html.DropDownList("city", (IEnumerable<SelectListItem>)ViewBag.CityList, "<Please Select>", new { @class = "mdb-select md-form", placeholder = "City" })*@
+                </th>
+                <th>
+                    @Html.TextBox("region")
+                    @*@Html.DropDownList("region", (IEnumerable<SelectListItem>)ViewBag.RegionList, "<Please Select>", new { @class = "mdb-select md-form", placeholder = "Region" })*@
+                </th>
+                <th>
+                    @Html.TextBox("country")
+                    @*@Html.DropDownList("country", (IEnumerable<SelectListItem>)ViewBag.CountryList, "<Please Select>", new { @class = "mdb-select md-form", placeholder = "Country" })*@
+                </th>
+                <th>
+                    @Html.DropDownList("playingplace", (IEnumerable<SelectListItem>)ViewBag.PlayingPlaceList, "<Please Select>", new { @class = "mdb-select md-form", placeholder = "Playing Place" })
+                </th>
+                <th> <input type="submit" value="Search" style="background-color:#20c5f7;border-radius: 10px;" /></th>
                 <th></th>
                 <th></th>
             </tr>
             <tr class="danger" style="border-bottom:3px solid black">
-                <th style="border-bottom:3px solid black">  </th>
+                @*<th style="border-bottom:3px solid black">  </th>*@
                 <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Name </th>
                 <th style="border-bottom:3px solid black" class="headerSortUp "> Weight </th>
                 <th style="border-bottom:3px solid black" class="headerSortUp "> Height </th>
@@ -118,7 +133,7 @@ else
 
                     <tr>
 
-                        <td></td>
+                        @*<td></td>*@
                         <td><a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = items.PlayerId }))">@items.Player</a></td>
                         <td>@items.Weight</td>
                         <td>@items.Length</td>
@@ -149,7 +164,7 @@ else
         </tbody>
     </table>
 }
-    <br />
+<br />
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("Player", new { page }))
@@ -181,7 +196,10 @@ else
                 }
             }
 
-
+        // Material Select Initialization
+        $(document).ready(function () {
+            $('.mdb-select').materialSelect();
+        });
    @*     $(function () {
             var myTable = "#myTable";
             var myTableBody = myTable + "tbody";

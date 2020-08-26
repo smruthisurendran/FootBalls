@@ -178,6 +178,7 @@
     <Compile Include="Models\TblTeamRequest.cs" />
     <Compile Include="Models\TblTeamSponsor.cs" />
     <Compile Include="Models\TblUser.cs" />
+    <Compile Include="Models\TeamDetailsTbl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +194,17 @@
     <Content Include="Content\images\backgrnd2.jpg" />
     <Content Include="Content\images\F3.jpg" />
     <Content Include="Content\images\facebook.png" />
+    <Content Include="Content\images\fbimg1.jpg" />
+    <Content Include="Content\images\fbimg2.jpg" />
+    <Content Include="Content\images\fbimg3.jpg" />
+    <Content Include="Content\images\fbimg4.jpg" />
+    <Content Include="Content\images\fbimg4new.png" />
+    <Content Include="Content\images\fbimg4new1.png" />
+    <Content Include="Content\images\fbimg5.png" />
+    <Content Include="Content\images\fbimg6.jpg" />
+    <Content Include="Content\images\fbimg7.jpg" />
+    <Content Include="Content\images\fbimg8.jpg" />
+    <Content Include="Content\images\football2img.jpg" />
     <Content Include="Content\images\football3.jpg" />
     <Content Include="Content\images\gallery02.jpg" />
     <Content Include="Content\images\images.jpg" />
@@ -771,6 +783,12 @@
     <Content Include="Views\TeamDetails\Teams.cshtml" />
     <Content Include="Views\TeamDetails\RequestForTeam.cshtml" />
     <Content Include="Views\CoachDetails\MyRequest.cshtml" />
+    <Content Include="Views\TeamDetails\EditProfile.cshtml" />
+    <Content Include="Views\TeamSponsorDetails\EditProfile.cshtml" />
+    <Content Include="Views\PlayGroundDetails\EditProfile.cshtml" />
+    <Content Include="Views\PlayGroundOwnerDetails\EditProfile.cshtml" />
+    <Content Include="Views\ChampionshipSponsorDetails\EditProfile.cshtml" />
+    <Content Include="Views\ChampionshipDetails\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,6 +14,7 @@ namespace FootBalls.Controllers
     public class PlayGroundDetailsController : Controller
     {
         AllUsersContext db = new AllUsersContext();
+        public static byte[] bytes;
 
         // GET: PlayGroundDetaills
         public ActionResult Index()
@@ -157,7 +158,51 @@ namespace FootBalls.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult EditProfile(int id)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
 
+            if (id != 0)
+            {
+                return View(db.PlayGround_tbl.Where(x => x.PGId == id && x.Status == 1).FirstOrDefault());
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(int id, TblPlayGround model, string city, HttpPostedFileBase postedFile)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            if (postedFile != null)
+            {
+                using (BinaryReader br = new BinaryReader(postedFile.InputStream))
+                {
+                    bytes = br.ReadBytes(postedFile.ContentLength);
+                }
+            }
+            var EditPlayGroundList = db.PlayGround_tbl.Where(x => x.PGId == id && x.Status == 1).FirstOrDefault();
+            if (EditPlayGroundList != null)
+            {
+                EditPlayGroundList.Name = model.Name;
+                EditPlayGroundList.Length = model.Length;
+                EditPlayGroundList.Width = model.Width;
+                EditPlayGroundList.GoalLength = model.GoalLength;
+                EditPlayGroundList.GoalWidth = model.GoalWidth;
+                EditPlayGroundList.NoOfPlayer = model.NoOfPlayer;
+                EditPlayGroundList.Location = model.Location;
+                EditPlayGroundList.RentingPrice = model.RentingPrice;
+                if (bytes != null)
+                {
+                    EditPlayGroundList.Image = bytes;
+                }
+                db.SaveChanges();
+            }           
+            return Content("<script>alert('Updated Successfully');location.href='PlayGroundView';</script>");
+        }
 
     }
 }

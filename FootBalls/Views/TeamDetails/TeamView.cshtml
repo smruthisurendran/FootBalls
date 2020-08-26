@@ -1,6 +1,6 @@
 ﻿
 
-@model FootBalls.Models.TblTeam
+@model FootBalls.Models.TeamDetailsTbl
 @{
     ViewBag.Title = "Team view";
     Layout = "~/Views/Shared/_PlayerViewLayout.cshtml";
@@ -19,21 +19,24 @@ else
     </div>
 }
 
-<div class="topnav1">
-    <h4>Welcome to @Model.TeamName Details!!</h4>
-    <a href="@Url.Action("Team", "TeamDetails")" style="text-decoration:none;color:whitesmoke;">>>Home</a>
-</div>
+    <div class="topnav1">
+        <h4>Welcome to @Model.TeamTbl.TeamName Details!!</h4>
+        @if (Session["TeamSponsorId"] != null && Convert.ToInt32(Session["TeamSponsorId"].ToString()) == Model.TeamTbl.TeamSponsorId)
+        {
+            <a href="@Url.Action("EditProfile", "TeamDetails", new RouteValueDictionary(new { id = Model.TeamTbl.TeamId }))"> <input type="button" class="btn btn-info" value="Edit Profile" style="background-color:whitesmoke;" /> </a>
+        }
+    </div>
 <br />
 <br />
 @if (Session["UserId"] != null && Session["TeamSponsorId"] != null)
 {
-    if (Convert.ToInt32(Session["TeamSponsorId"].ToString()) == Model.TeamSponsorId)
+    if (Convert.ToInt32(Session["TeamSponsorId"].ToString()) == Model.TeamTbl.TeamSponsorId)
     {
-<div style="text-align:right;margin-right:16px;">
-    <a href="@Url.Action("RequestForTeam", "TeamDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Team Requests" style="background-color:whitesmoke;" /></a>
-    <a href="@Url.Action("PlayerS", "PlayerDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Add Player" style="background-color:whitesmoke;" /> </a>
-    <a href="@Url.Action("Coachh", "CoachDetails", new RouteValueDictionary(new { id = Model.TeamId }))"> <input type="button" class="btn btn-info" value="Add Coach" style="background-color:whitesmoke;" /> </a>
-</div>
+        <div style="text-align:right;margin-right:16px;">
+            <a href="@Url.Action("RequestForTeam", "TeamDetails", new RouteValueDictionary(new { id = Model.TeamTbl.TeamId }))"> <input type="button" class="btn btn-info" value="Team Requests" style="background-color:whitesmoke;" /></a>
+            <a href="@Url.Action("PlayerS", "PlayerDetails", new RouteValueDictionary(new { id = Model.TeamTbl.TeamId }))"> <input type="button" class="btn btn-info" value="Add Player" style="background-color:whitesmoke;" /> </a>
+            <a href="@Url.Action("Coachh", "CoachDetails", new RouteValueDictionary(new { id = Model.TeamTbl.TeamId }))"> <input type="button" class="btn btn-info" value="Add Coach" style="background-color:whitesmoke;" /> </a>
+        </div>
     }
 }
 
@@ -44,8 +47,8 @@ else
     <form style="color:whitesmoke;font-size:medium;">
         <fieldset>
             <div>
-                @Html.HiddenFor(model => model.TeamSponsorId)
-                @Html.HiddenFor(model => model.TeamId)
+                @Html.HiddenFor(model => model.TeamTbl.TeamSponsorId)
+                @Html.HiddenFor(model => model.TeamTbl.TeamId)
                 <div class="form-row">
 
                     <div class="form-group">
@@ -68,7 +71,7 @@ else
                         <br />
                         <div>
 
-                            @Html.DisplayFor(model => model.TeamName)
+                            @Html.DisplayFor(model => model.TeamTbl.TeamName)
                         </div>
                     </div>
                     <div class="form-group">
@@ -76,20 +79,20 @@ else
                         <br />
                         <div>
                             <label><b>Team Name : </b></label>
-                            @Html.DisplayFor(model => model.TeamName)
+                            @Html.DisplayFor(model => model.TeamTbl.TeamName)
                         </div>
                         <br />
                         <br />
                         <div>
                             <label><b>Country : </b></label>
-                            @Html.DisplayFor(model => model.TblCity.TblRegion.TblCountry.Country)
+                            @Html.DisplayFor(model => model.TeamTbl.TblCity.TblRegion.TblCountry.Country)
                         </div>
 
                         <br />
                         <br />
                         <div>
                             <label><b> Region : </b></label>
-                            @Html.DisplayFor(model => model.TblCity.TblRegion.Region)
+                            @Html.DisplayFor(model => model.TeamTbl.TblCity.TblRegion.Region)
                         </div>
 
                         <br />
@@ -97,7 +100,7 @@ else
 
                         <div>
                             <label><b>City : </b></label>
-                            @Html.DisplayFor(model => model.TblCity.City)
+                            @Html.DisplayFor(model => model.TeamTbl.TblCity.City)
                         </div>
 
                     </div>
@@ -107,20 +110,20 @@ else
                         <br />
                         <div>
                             <label><b>Team Sponsor : </b></label>
-                            @Html.DisplayFor(model => model.TblTeamSponsor.Name)
+                            @Html.DisplayFor(model => model.TeamTbl.TblTeamSponsor.Name)
                         </div>
                         <br />
                         <br />
                         <div>
                             <label><b>Registration Date : </b></label>
-                            @Html.DisplayFor(model => model.RegistrationDate)
+                            @Html.DisplayFor(model => model.TeamTbl.RegistrationDate)
                         </div>
 
                         <br />
                         <br />
                         <div>
                             <label><b> Expiration Date : </b></label>
-                            @Html.DisplayFor(model => model.ExpirationDate)
+                            @Html.DisplayFor(model => model.TeamTbl.ExpirationDate)
                         </div>
                     </div>
                 </div>
@@ -128,7 +131,75 @@ else
         </fieldset>
     </form>
 </div>
+<div align="center">
+    <h4 style="color:white">Team Members</h4>
+    <form style="color:whitesmoke;font-size:medium;">
+        <fieldset>
+            <div>
+                <table cellspacing="10" cellpadding="6" style="width:50%;float:left;margin-right:10px;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
+                    <thead style="border-bottom:3px solid black">
+                        <tr class="danger" style="border-bottom:3px solid black">
+                            <th style="border-bottom:3px solid black">Player Name</th>
+                            <th style="border-bottom:3px solid black">Playing Place</th>
+                            <th style="border-bottom:3px solid black">Playing Foot</th>
+                            <th style="border-bottom:3px solid black">Weight</th>
+                            <th style="border-bottom:3px solid black">Height</th>
+                        </tr>
+                    </thead>
+                    <tbody style="border-bottom:2px solid black;">
+                        @foreach (var items in Model.PlayerRequestTbl)
+                        {
+                            <tr class="danger" style="border:3px solid black">
+                                <td align="center"><a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = items.TblPlayer.PlayerId }))"><small style="color:wheat;font-size:16px">@items.TblPlayer.Player</small></a></td>
+                                <td align="center">@items.TblPlayer.TblPlayingPlace.PlayingPlace</td>
 
+                                @if (@items.TblPlayer.PlayingFoot == 1)
+                                {
+                                    <td align="center"> Right Foot </td>
+                                }
+                                else if (@items.TblPlayer.PlayingFoot == 2)
+                                {
+                                    <td align="center"> Left Foot </td>
+                                }
+                                else
+                                {
+                                    <td align="center"> Both </td>
+                                }
+
+                                <td align="center">@items.TblPlayer.Weight</td>
+                                <td align="center">@items.TblPlayer.Length</td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+
+                <table cellspacing="10" cellpadding="6" style="width:40%;float:left" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
+                    <thead style="border-bottom:3px solid black">
+                        <tr class="danger" style="border-bottom:3px solid black">
+                            <th style="border-bottom:3px solid black">Coach Name</th>
+                            <th style="border-bottom:3px solid black">Weight</th>
+                            <th style="border-bottom:3px solid black">Height</th>
+                        </tr>
+                    </thead>
+                    <tbody style="border-bottom:2px solid black;">
+                        @foreach (var items in Model.CoachRequestTbl)
+                        {
+                            <tr class="danger" style="border:3px solid black">
+                                <td align="center"><a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = items.TblCoach.CoachId }))"><small style="color:wheat;font-size:16px">@items.TblCoach.Coach</small></a></td>
+                                <td align="center">@items.TblCoach.Weight</td>
+                                <td align="center">@items.TblCoach.Length</td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+    </form>
+</div>
 <br />
 <br />
 <a href="@Url.Action("Team", "TeamDetails")" style="text-decoration:none;color:whitesmoke;"><input type="button" value="Back" class="btn-outline-danger" /></a>

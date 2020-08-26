@@ -92,7 +92,8 @@ else
 
                 <th style="border-bottom:3px solid black"> Total Championship  </th>
                 <th style="border-bottom:3px solid black">  Total Matches  </th>
-
+                <th style="border-bottom:3px solid black">   </th>
+                <th style="border-bottom:3px solid black">   </th>
             </tr>
         </thead>
         <tbody id="myTable" style="border-bottom:2px solid black;">
@@ -117,7 +118,7 @@ else
                         <td></td>
                         <td></td>
 
-                        <td><a href="@Url.Action("CoachRequest", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))" style="color:darkmagenta;"><input type="button" value="Request For Coach" style="background-color:#663507;"  /></a></td>
+                        <td><a href="@Url.Action("CoachRequest", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))" style="color:darkmagenta;"><input type="button" value="Send Request" style="background-color:#f78f20; border-radius: 10px;"  /></a></td>
                     </tr>
                 }
             }

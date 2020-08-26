@@ -145,6 +145,37 @@ namespace FootBalls.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult EditProfile(int id)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
 
+            if (id != 0)
+            {
+                return View(db.PlayGroundOwner_tbl.Where(x => x.PGOwnerId == id && x.Status == 1).FirstOrDefault());
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(int id, TblPlayGroundOwner model, string city)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            var EditPlayGroundOwnerList = db.PlayGroundOwner_tbl.Where(x => x.PGOwnerId == id && x.Status == 1).FirstOrDefault();
+            if (EditPlayGroundOwnerList != null)
+            {
+                EditPlayGroundOwnerList.Name = model.Name;
+                EditPlayGroundOwnerList.Mobile = model.Mobile;
+                EditPlayGroundOwnerList.Category = model.Category;
+                db.SaveChanges();
+            }
+            //db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+            //db.SaveChanges();           
+
+            return Content("<script>alert('Updated Successfully');location.href='PlayGroundOwnerView';</script>");
+        }
     }
 }

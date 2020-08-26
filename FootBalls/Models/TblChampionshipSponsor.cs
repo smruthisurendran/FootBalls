@@ -16,8 +16,10 @@ namespace FootBalls.Models
         [Key]
         public int ChampionshipSponsorId { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Sponsor Name")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Sponsor Category")]
         public string Category { get; set; }
 
         public int Confirmed { get; set; }
@@ -25,6 +27,8 @@ namespace FootBalls.Models
         public DateTime RegistrationDate { get; set; }
         public DateTime ExpirationDate { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Mobile Number")]
+        [DataType(DataType.PhoneNumber)]
         public string Mobile { get; set; }
 
         [ForeignKey("TblUser")]

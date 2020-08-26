@@ -16,6 +16,7 @@ namespace FootBalls.Controllers
         AllUsersContext db = new AllUsersContext();
         public object TeamReferenceNumber;
         public static List<int> TeamMemberId;
+        public static byte[] bytes;
 
         // GET: TeamDetails
         public ActionResult Index()
@@ -160,6 +161,9 @@ namespace FootBalls.Controllers
         {
             if (id != 0)
             {
+                var playerResult = db.PlayerRequest_tbl.Where(x =>x.RequestFrom == id && x.Approved == 1).ToList();
+                var coachResult = db.CoachRequest_tbl.Where(x => x.RequestFrom == id && x.Approved == 1).ToList();
+                //var teamMemberResult = db.TeamMembers_tbl.Where(x => x.TeamId == id).ToList();
                 var img = db.Team_tbl.Where(x => x.TeamId == id && x.Status == 1).Select(x => x.Photo).FirstOrDefault();
                 if (img != null)
                 {
@@ -167,11 +171,58 @@ namespace FootBalls.Controllers
                     string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
                     ViewBag.ImageData = imgDataURL;
                 }
+                var teamResult = db.Team_tbl.Where(x => x.TeamId == id && x.Status == 1).FirstOrDefault();
+                //var model = from tmr in teamMemberResult
+                //                        join pr in playerResult on tmr.PlayerId equals pr.PlayerId
+                //                        join cr in coachResult on tmr.CoachId equals cr.CoachId
+                var model = new TeamDetailsTbl {TeamTbl = teamResult,PlayerRequestTbl= playerResult, CoachRequestTbl= coachResult };
+                return View(model);
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult EditProfile(int id)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            if (id != 0)
+            {
                 return View(db.Team_tbl.Where(x => x.TeamId == id && x.Status == 1).FirstOrDefault());
             }
             return View();
         }
 
+        [HttpPost]
+        public ActionResult EditProfile(int id, TblTeam model, string city, HttpPostedFileBase postedFile)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            if (postedFile != null)
+            {
+                using (BinaryReader br = new BinaryReader(postedFile.InputStream))
+                {
+                    bytes = br.ReadBytes(postedFile.ContentLength);
+                }
+            }
+            var EditTeamList = db.Team_tbl.Where(x => x.TeamId == id && x.Status == 1).FirstOrDefault();
+            if (EditTeamList != null)
+            {
+                EditTeamList.TeamName = model.TeamName;
+
+                if (bytes != null)
+                {
+                    EditTeamList.Photo = bytes;
+                }
+                db.SaveChanges();
+            }
+            //db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+            //db.SaveChanges();           
+
+            return Content("<script>alert('Updated Successfully');location.href='TeamView';</script>");
+        }
 
         [HttpGet]
         public ActionResult Teams(int? page, int id, int memberConfirmId)

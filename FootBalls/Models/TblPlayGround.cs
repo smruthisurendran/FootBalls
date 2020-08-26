@@ -20,13 +20,22 @@ namespace FootBalls.Models
         public int PGOwnerId { get; set; }
         public virtual TblPlayGroundOwner TblPlayGroundOwner { get; set; }
 
+        [Required(ErrorMessage = "Please Enter PlayGroundName")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Length")]
         public int Length { get; set; }
+
+        [Required(ErrorMessage = "Please Enter Width")]
         public int Width { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Goal Length")]
         public int GoalLength { get; set; }
+
+        [Required(ErrorMessage = "Please Enter Goal Width")]
         public int GoalWidth { get; set; }
+
+        [Required(ErrorMessage = "Please Enter Number of Players")]
         public int NoOfPlayer { get; set; }
 
         [ForeignKey("TblCity")]

@@ -209,7 +209,7 @@ else
                         @foreach (var items in Model.TeamMembersTbl)
                         {
                             <tr class="danger" style="border:3px solid black">
-                                <td align="center">@items.TblTeam.TeamName</td>
+                                <td align="center"><a href="@Url.Action("TeamView", "TeamDetails", new RouteValueDictionary(new { id = items.TblTeam.TeamId }))"><small style="color:wheat;font-size:16px">@items.TblTeam.TeamName</small></a></td>
                                 <td align="center">@items.TblTeam.TblTeamSponsor.Name</td>
                                 <td align="center">@items.TblTeam.RegistrationDate</td>
                                 <td align="center">@items.TblTeam.ExpirationDate</td>

@@ -16,10 +16,14 @@ namespace FootBalls.Models
         public int PGOwnerId { get; set; }
 
         public string PGOwnerReferenceNumber { get; set; }
+
+        [Required(ErrorMessage = "Please Enter Owner Name")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Mobile Number")]
         public string Mobile { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Category")]
         public string Category { get; set; }
 
         [ForeignKey("TblCity")]

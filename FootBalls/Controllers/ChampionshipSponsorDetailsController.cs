@@ -14,7 +14,7 @@ namespace FootBalls.Controllers
     public class ChampionshipSponsorDetailsController : Controller
     {
         AllUsersContext db = new AllUsersContext();
-
+      
         // GET: ChampionshipSponsor
         public ActionResult Index()
         {
@@ -113,6 +113,40 @@ namespace FootBalls.Controllers
                 return View(db.ChampionshipSponsor_tbl.Where(x => x.ChampionshipSponsorId == id && x.Status == 1).FirstOrDefault());
             }
             return View();
+        }
+
+
+        [HttpGet]
+        public ActionResult EditProfile(int id)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            if (id != 0)
+            {
+                return View(db.ChampionshipSponsor_tbl.Where(x => x.ChampionshipSponsorId == id && x.Status == 1).FirstOrDefault());
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(int id, TblChampionshipSponsor model)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            var EditChampionshipSponsorList = db.ChampionshipSponsor_tbl.Where(x => x.ChampionshipSponsorId == id && x.Status == 1).FirstOrDefault();
+            if (EditChampionshipSponsorList != null)
+            {
+                EditChampionshipSponsorList.Name = model.Name;
+                EditChampionshipSponsorList.Category = model.Category;
+                EditChampionshipSponsorList.Mobile = model.Mobile;
+
+            }
+            //db.Entry(model).State = System.Data.Entity.EntityState.Modified;
+            //db.SaveChanges();           
+
+            return Content("<script>alert('Updated Successfully');location.href='ChampionshipSponsorView';</script>");
         }
     }
 }

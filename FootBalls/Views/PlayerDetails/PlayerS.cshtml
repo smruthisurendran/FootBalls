@@ -71,74 +71,110 @@ else
 <br />
 <div class="table-responsive">
 
-    <b>  search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
-
-
+    @*<b>  search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />*@
 
     <br />
-    <br />
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
-        <thead style="border-bottom:3px solid black">
-            <tr class="danger" style="border-bottom:3px solid black">
-                <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Name </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp "> Weight </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp "> Height </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> Playing Foot </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
-                <th style="border-bottom:3px solid black"> Playing Place </th>
-                <th style="border-bottom:3px solid black"> Championship Played </th>
-                <th style="border-bottom:3px solid black"> Matches Played </th>
-                <th style="border-bottom:3px solid black"> Total Goals </th>
-            </tr>
-        </thead>
-        <tbody id="myTable" style="border-bottom:2px solid black;">
 
-            @if (Model != null)
-            {
-                foreach (var items in Model)
+
+    @using (Html.BeginForm("PlayerS", "PlayerDetails", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table cellspacing="3" cellpadding="2" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
+            <thead style="border-bottom:3px solid black">
+                <tr style="border-bottom:3px solid black">
+                    @*<th> Search </th>*@
+                    <th>@Html.TextBox("name")</th>
+                    <th>@Html.TextBox("weight")</th>
+                    <th>@Html.TextBox("height")</th>
+                    <th>
+
+                        @Html.DropDownList("playingfoot", new List<SelectListItem>()
+                                   {
+                                       new SelectListItem(){ Text = "Right", Value="1"},
+                                       new SelectListItem(){ Text = "Left", Value="2"},
+                                       new SelectListItem(){ Text = "Both", Value="3"}
+                                   }, "<Please Select>", new { @class = "mdb-select md-form" })
+                    </th>
+                    <th>
+                        @Html.TextBox("city")
+                        @*@Html.DropDownList("city", (IEnumerable<SelectListItem>)ViewBag.CityList, "<Please Select>", new { @class = "mdb-select md-form", placeholder = "City" })*@
+                    </th>
+                    <th>
+                        @Html.TextBox("region")
+                        @*@Html.DropDownList("region", (IEnumerable<SelectListItem>)ViewBag.RegionList, "<Please Select>", new { @class = "mdb-select md-form", placeholder = "Region" })*@
+                    </th>
+                    <th>
+                        @Html.TextBox("country")
+                        @*@Html.DropDownList("country", (IEnumerable<SelectListItem>)ViewBag.CountryList, "<Please Select>", new { @class = "mdb-select md-form", placeholder = "Country" })*@
+                    </th>
+                    <th>
+                        @Html.DropDownList("playingplace", (IEnumerable<SelectListItem>)ViewBag.PlayingPlaceList, "<Please Select>", new { @class = "mdb-select md-form", placeholder = "Playing Place" })
+                    </th>
+                    <th> <input type="submit" value="Search" style="background-color:#20c5f7;border-radius: 10px;" /></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr class="danger" style="border-bottom:3px solid black">
+                    <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Name </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp "> Weight </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp "> Height </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> Playing Foot </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
+                    <th style="border-bottom:3px solid black"> Playing Place </th>
+                    <th style="border-bottom:3px solid black"> Championship Played </th>
+                    <th style="border-bottom:3px solid black"> Matches Played </th>
+                    <th style="border-bottom:3px solid black"> Total Goals </th>
+                    <th style="border-bottom:3px solid black">  </th>
+                </tr>
+            </thead>
+            <tbody id="myTable" style="border-bottom:2px solid black;">
+
+                @if (Model != null)
                 {
+                    foreach (var items in Model)
+                    {
 
-                    <tr>
+                        <tr>
 
-                        @*<td><a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = items.PlayerId }))">@items.Player</a></td>*@
-                        <td>@items.Player</td>
-                        <td>@items.Weight</td>
-                        <td>@items.Length</td>
-                        @if (@items.PlayingFoot == 1)
-                        {
-                            <td> Right Foot </td>
-                        }
-                        else if (@items.PlayingFoot == 2)
-                        {
-                            <td> Left Foot </td>
-                        }
-                        else
-                        {
-                            <td> Both </td>
-                        }
+                            @*<td><a href="@Url.Action("PlayerView", "PlayerDetails", new RouteValueDictionary(new { id = items.PlayerId }))">@items.Player</a></td>*@
+                            <td>@items.Player</td>
+                            <td>@items.Weight</td>
+                            <td>@items.Length</td>
+                            @if (@items.PlayingFoot == 1)
+                            {
+                                <td> Right Foot </td>
+                            }
+                            else if (@items.PlayingFoot == 2)
+                            {
+                                <td> Left Foot </td>
+                            }
+                            else
+                            {
+                                <td> Both </td>
+                            }
 
-                        <td>@items.TblCity.City</td>
-                        <td>@items.TblCity.TblRegion.Region </td>
-                        <td>@items.TblCity.TblRegion.TblCountry.Country</td>
-                        <td>@items.TblPlayingPlace.PlayingPlace</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><a href="@Url.Action("PlayerRequest", "PlayerDetails", new RouteValueDictionary(new { id = items.PlayerId }))" style="color:darkmagenta;"><input type="button" style="background-color:#663507;" value="Request For Player" /></a></td>
-                    </tr>
+                            <td>@items.TblCity.City</td>
+                            <td>@items.TblCity.TblRegion.Region </td>
+                            <td>@items.TblCity.TblRegion.TblCountry.Country</td>
+                            <td>@items.TblPlayingPlace.PlayingPlace</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><a href="@Url.Action("PlayerRequest", "PlayerDetails", new RouteValueDictionary(new { id = items.PlayerId }))" style="color:darkmagenta;"><input type="button" style="background-color:#f78f20; border-radius: 10px;" value="Send Request" /></a></td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    <br />
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("PlayerS", new { page }))
 
-    @Html.PagedListPager(Model, page => Url.Action("PlayerS", new { page }))
-
-</div>
+    </div>
 
 
 <script type="text/javascript">

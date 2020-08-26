@@ -83,7 +83,7 @@ namespace FootBalls.Controllers
                     Confirmed = 1,
 
                     RegistrationDate = DateTime.Now,
-                    ExpirationDate = DateTime.Now,
+                    ExpirationDate = DateTime.Now.AddYears(1),
 
                     Mobile = model.Mobile,
                     UserId = Convert.ToInt32(userid),
@@ -92,7 +92,7 @@ namespace FootBalls.Controllers
                     CreatedId = 1,
                     CreatedDate = DateTime.Now,
 
-                    ModifiedId = 0,
+                    ModifiedId = 1,
                     ModifiedDate = DateTime.Now
                 });
 
@@ -137,6 +137,37 @@ namespace FootBalls.Controllers
                 return View(db.TeamSponsor_tbl.Where(x => x.TeamSponsorId == id).FirstOrDefault());
             }
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult EditProfile(int id)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            if (id != 0)
+            {
+                return View(db.TeamSponsor_tbl.Where(x => x.TeamSponsorId == id).FirstOrDefault());
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(int id, TblTeamSponsor model, string city)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            var EditTeamSponsorList = db.TeamSponsor_tbl.Where(x => x.TeamSponsorId == id).FirstOrDefault();
+            if (EditTeamSponsorList != null)
+            {
+                EditTeamSponsorList.Name = model.Name;
+                EditTeamSponsorList.Category = model.Category;
+                EditTeamSponsorList.Mobile = model.Mobile;
+
+                db.SaveChanges();
+            }           
+            return Content("<script>alert('Updated Successfully');location.href='TeamSponsorView';</script>");
         }
     }
 }

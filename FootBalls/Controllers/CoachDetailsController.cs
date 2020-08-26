@@ -359,7 +359,7 @@ namespace FootBalls.Controllers
             //db.Entry(model).State = System.Data.Entity.EntityState.Modified;
             //db.SaveChanges();           
 
-            return Content("<script>alert('Updated Successfully');location.href='';</script>");
+            return Content("<script>alert('Updated Successfully');location.href='CoachView';</script>");
         }
 
         [HttpGet]

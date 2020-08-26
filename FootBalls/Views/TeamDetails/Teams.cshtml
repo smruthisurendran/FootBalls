@@ -156,58 +156,6 @@ else
                 }
             }
 
-
-   @*     $(function () {
-            var myTable = "#myTable";
-            var myTableBody = myTable + "tbody";
-            var myTableRows = myTableBody + "tr";
-            var myTableColumn = myTable + "th";
-
-            function initTable() {
-                $(myTableColumn).each(function () {
-                    var width = $(this).width();
-                    $(this).width(width + 40);
-                });
-
-                $(myTableColumn).eq(0).addClass("sorted-asc");
-
-                sortTable($(myTable), 0, "asc");
-            }
-            initTable();
-
-            function sortTable(table, column, order) {
-                var asc = order === 'asc';
-                var tbody = table.find('tbody');
-
-                tbody.find('tr').sort(function (a, b) {
-                    if (asc) {
-                        return $('td:eq(' + column + ')', a).text()
-                            .localeCompare($('td:eq(' + column + ')', b).text());
-                    }
-                    else {
-                        return $('td:eq(' + column + ')', b).text()
-                            .localeCompare($('td:eq(' + column + ')', a).text());
-                    }
-                }).appendTo(tbody);
-            }
-
-            $(myTableColumn).click(function () {
-                $(myTableColumn).not($(this)).removeClass("sorted-asc sorted-desc");
-
-                if ($(this).hasClass("sorted-asc") || $(this).hasClass("sorted-desc")) {
-                    $(this).toggleClass("sorted-asc sorted-desc");
-                }
-                else {
-                    $(this).addClass("sorted-asc");
-                }
-
-                sortTable($(myTable),
-                    $(this).index(), $(this).hasClass("sorted-asc") ? "asc" : "desc");
-            });
-        }); *@
-
-
-
 </script>
 
 

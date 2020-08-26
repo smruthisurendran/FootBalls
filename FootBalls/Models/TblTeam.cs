@@ -15,7 +15,8 @@ namespace FootBalls.Models
 
         [Key]
         public int TeamId { get; set; }
-   
+
+        [Required(ErrorMessage = "Please Enter TeamName")]
         public string TeamName { get; set; }
 
         [ForeignKey("TblCity")]

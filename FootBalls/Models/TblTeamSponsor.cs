@@ -16,7 +16,10 @@ namespace FootBalls.Models
         [Key]
         public int TeamSponsorId { get; set; }
 
+        [Required(ErrorMessage = "Please Enter Sponsor Name")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Please Enter Category")]
         public string Category { get; set; }
 
         public int Confirmed { get; set; }
