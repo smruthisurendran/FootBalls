@@ -28,7 +28,7 @@ namespace FootBalls.Models
         public DbSet<TblChampionshipRequest> ChampionshipRequest_tbl { get; set; }
         public DbSet<TblTeamSponsor> TeamSponsor_tbl { get; set; }
 
-
+        public DbSet<TblChangeBackground> ChangeBackground_tbl { get; set; }
        /* public DbSet<TblPlayGround> PlayGround_tbl { get; set; }
         public DbSet<TblChampionship> Championship_tbl { get; set; }
         public DbSet<TblTeam> Team_tbl { get; set; }

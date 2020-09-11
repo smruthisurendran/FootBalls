@@ -15,7 +15,7 @@ namespace FootBalls.Controllers
     {
         public static byte[] bytes;
         AllUsersContext db = new AllUsersContext();
-
+        public static List<TblCoach> searchResult = null;
 
         // GET: CoachDetails
         public ActionResult Index()
@@ -26,6 +26,15 @@ namespace FootBalls.Controllers
         [HttpGet]
         public ActionResult Coach(int? page)
         {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            List<TblRegion> regions = db.Region_tbl.ToList();
+            ViewBag.RegionList = new SelectList(regions, "RegionId", "Region");
+
+            List<TblCity> cities = db.City_tbl.ToList();
+            ViewBag.CityList = new SelectList(cities, "CityId", "City");
+
             if (Session["UserId"] != null)
             {
                 var userid = Session["UserId"].ToString();
@@ -41,7 +50,7 @@ namespace FootBalls.Controllers
 
             if (coachinfo != null)
             {
-                int pageSize = 4;
+                int pageSize = 8;
                 int pageNumber = (page ?? 1);
                 return View(coachinfo.ToPagedList(pageNumber, pageSize));
             }
@@ -50,11 +59,74 @@ namespace FootBalls.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult Coach(int? page, string name, string weight, string height,string city, string country, string region)
+        {
+
+
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            List<TblRegion> regions = db.Region_tbl.ToList();
+            ViewBag.RegionList = new SelectList(regions, "RegionId", "Region");
+
+            List<TblCity> cities = db.City_tbl.ToList();
+            ViewBag.CityList = new SelectList(cities, "CityId", "City");
+            
+            if (name != null && name != "")
+            {
+                searchResult = db.Coach_tbl.Where(x => x.Coach.ToLower() == name.ToLower()).ToList();
+            }
+            else
+            {
+                searchResult = db.Coach_tbl.ToList();
+            }
+            if (weight != null && weight != "")
+            {
+                int Weight = Convert.ToInt32(weight);
+                searchResult = searchResult.Where(x => x.Weight == Weight).ToList();
+            }
+            if (height != null && height != "")
+            {
+                int Height = Convert.ToInt32(height);
+                searchResult = searchResult.Where(x => x.Length == Height).ToList();
+            }
+            if (country != null && country != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.TblRegion.TblCountry.Country.ToLower() == country.ToLower()).ToList();
+            }
+            if (region != null && region != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.TblRegion.Region.ToLower() == region.ToLower()).ToList();
+            }
+            if (city != null && city != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.City.ToLower() == city.ToLower()).ToList();
+            }
+
+            if (Session["UserId"] != null)
+            {
+                var userid = Session["UserId"].ToString();
+                int userId = Convert.ToInt32(userid);
+                var coachid = db.Coach_tbl.Where(x => x.UserId == userId).Select(x => x.CoachId).FirstOrDefault();
+                if (coachid != 0)
+                {
+                    Session["CoachId"] = coachid;
+                }
+            }
+
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            return View(searchResult.ToPagedList(pageNumber, pageSize));
+        }
+
+
+
         [HttpGet]
         public ActionResult CoachRegistration()
         {
-            //if (Session["UserId"] != null)
-            //{
+            ViewBag.Name = Session["Name"].ToString();
+            ViewBag.MobileNumber = Session["MobileNumber"].ToString();
 
             List<TblCountry> countries = db.Country_tbl.ToList();
             ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
@@ -63,10 +135,7 @@ namespace FootBalls.Controllers
             ViewBag.UserList = new SelectList(user, "UserId", "UserId");
 
             return View();
-            //}
-
-
-            //return RedirectToAction("Login", "Account");
+          
         }
 
         [HttpPost]
@@ -181,6 +250,16 @@ namespace FootBalls.Controllers
         [HttpGet]
         public ActionResult Coachh(int? page, int id)
         {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            List<TblRegion> regions = db.Region_tbl.ToList();
+            ViewBag.RegionList = new SelectList(regions, "RegionId", "Region");
+
+            List<TblCity> cities = db.City_tbl.ToList();
+            ViewBag.CityList = new SelectList(cities, "CityId", "City");
+
+
             if (id != 0)
             {
                 Session["TeamId"] = id;
@@ -210,6 +289,68 @@ namespace FootBalls.Controllers
             return View();
 
         }
+
+        [HttpPost]
+        public ActionResult Coachh(int? page, string name, string weight, string height, string city, string country, string region)
+        {
+
+
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            List<TblRegion> regions = db.Region_tbl.ToList();
+            ViewBag.RegionList = new SelectList(regions, "RegionId", "Region");
+
+            List<TblCity> cities = db.City_tbl.ToList();
+            ViewBag.CityList = new SelectList(cities, "CityId", "City");
+
+            if (name != null && name != "")
+            {
+                searchResult = db.Coach_tbl.Where(x => x.Coach.ToLower() == name.ToLower()).ToList();
+            }
+            else
+            {
+                searchResult = db.Coach_tbl.ToList();
+            }
+            if (weight != null && weight != "")
+            {
+                int Weight = Convert.ToInt32(weight);
+                searchResult = searchResult.Where(x => x.Weight == Weight).ToList();
+            }
+            if (height != null && height != "")
+            {
+                int Height = Convert.ToInt32(height);
+                searchResult = searchResult.Where(x => x.Length == Height).ToList();
+            }
+            if (country != null && country != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.TblRegion.TblCountry.Country.ToLower() == country.ToLower()).ToList();
+            }
+            if (region != null && region != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.TblRegion.Region.ToLower() == region.ToLower()).ToList();
+            }
+            if (city != null && city != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.City.ToLower() == city.ToLower()).ToList();
+            }
+
+            if (Session["UserId"] != null)
+            {
+                var userid = Session["UserId"].ToString();
+                int userId = Convert.ToInt32(userid);
+                var coachid = db.Coach_tbl.Where(x => x.UserId == userId).Select(x => x.CoachId).FirstOrDefault();
+                if (coachid != 0)
+                {
+                    Session["CoachId"] = coachid;
+                }
+            }
+
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            return View(searchResult.ToPagedList(pageNumber, pageSize));
+        }
+
 
         [HttpGet]
         public ActionResult CoachRequest(int id)

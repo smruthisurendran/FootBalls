@@ -17,7 +17,7 @@ namespace FootBalls.Controllers
         public object TeamReferenceNumber;
         public static List<int> TeamMemberId;
         public static byte[] bytes;
-
+        public static List<TblTeam> searchResult = null;
         // GET: TeamDetails
         public ActionResult Index()
         {
@@ -27,6 +27,14 @@ namespace FootBalls.Controllers
         [HttpGet]
         public ActionResult Team(int? page)
         {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            List<TblRegion> regions = db.Region_tbl.ToList();
+            ViewBag.RegionList = new SelectList(regions, "RegionId", "Region");
+
+            List<TblCity> cities = db.City_tbl.ToList();
+            ViewBag.CityList = new SelectList(cities, "CityId", "City");
 
             if (Session["UserId"] != null)
             {
@@ -43,7 +51,7 @@ namespace FootBalls.Controllers
 
             if (teaminfo != null)
             {
-                int pageSize = 4;
+                int pageSize = 8;
                 int pageNumber = (page ?? 1);
                 return View(teaminfo.ToPagedList(pageNumber, pageSize));
             }
@@ -51,12 +59,59 @@ namespace FootBalls.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Team(int? page, string name, string city, string country, string region)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            List<TblRegion> regions = db.Region_tbl.ToList();
+            ViewBag.RegionList = new SelectList(regions, "RegionId", "Region");
+
+            List<TblCity> cities = db.City_tbl.ToList();
+            ViewBag.CityList = new SelectList(cities, "CityId", "City");
+
+            if (name != null && name != "")
+            {
+                searchResult = db.Team_tbl.Where(x => x.TeamName.ToLower() == name.ToLower()).ToList();
+            }
+            else
+            {
+                searchResult = db.Team_tbl.ToList();
+            }           
+            if (country != null && country != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.TblRegion.TblCountry.Country.ToLower() == country.ToLower()).ToList();
+            }
+            if (region != null && region != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.TblRegion.Region.ToLower() == region.ToLower()).ToList();
+            }
+            if (city != null && city != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.City.ToLower() == city.ToLower()).ToList();
+            }
+      
+            if (Session["UserId"] != null)
+            {
+                var userid = Session["UserId"].ToString();
+                int userId = Convert.ToInt32(userid);
+                var teamsponsorid = db.TeamSponsor_tbl.Where(x => x.UserId == userId).Select(x => x.TeamSponsorId).FirstOrDefault();
+                if (teamsponsorid != 0)
+                {
+                    Session["TeamSponsorId"] = teamsponsorid;
+                }
+            }
+
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            return View(searchResult.ToPagedList(pageNumber, pageSize));
+        }
+
         [HttpGet]
         public ActionResult TeamRegistration()
         {
-            //if (Session["UserId"] != null)
-            //{
-
+                 
             List<TblCountry> countries = db.Country_tbl.ToList();
             ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
 
@@ -64,10 +119,7 @@ namespace FootBalls.Controllers
             ViewBag.UserList = new SelectList(user, "UserId", "UserId");
 
             return View();
-            //}
-
-
-            //return RedirectToAction("Login", "Account");
+            
         }
 
         [HttpPost]
@@ -248,12 +300,61 @@ namespace FootBalls.Controllers
 
             if (teaminfo != null)
             {
-                int pageSize = 4;
+                int pageSize = 8;
                 int pageNumber = (page ?? 1);
                 return View(teaminfo.ToPagedList(pageNumber, pageSize));
             }
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Teams(int? page, string name, string city, string country, string region)
+        {
+            List<TblCountry> countries = db.Country_tbl.ToList();
+            ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
+
+            List<TblRegion> regions = db.Region_tbl.ToList();
+            ViewBag.RegionList = new SelectList(regions, "RegionId", "Region");
+
+            List<TblCity> cities = db.City_tbl.ToList();
+            ViewBag.CityList = new SelectList(cities, "CityId", "City");
+
+            if (name != null && name != "")
+            {
+                searchResult = db.Team_tbl.Where(x => x.TeamName.ToLower() == name.ToLower()).ToList();
+            }
+            else
+            {
+                searchResult = db.Team_tbl.ToList();
+            }
+            if (country != null && country != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.TblRegion.TblCountry.Country.ToLower() == country.ToLower()).ToList();
+            }
+            if (region != null && region != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.TblRegion.Region.ToLower() == region.ToLower()).ToList();
+            }
+            if (city != null && city != "")
+            {
+                searchResult = searchResult.Where(x => x.TblCity.City.ToLower() == city.ToLower()).ToList();
+            }
+
+            if (Session["UserId"] != null)
+            {
+                var userid = Session["UserId"].ToString();
+                int userId = Convert.ToInt32(userid);
+                var teamsponsorid = db.TeamSponsor_tbl.Where(x => x.UserId == userId).Select(x => x.TeamSponsorId).FirstOrDefault();
+                if (teamsponsorid != 0)
+                {
+                    Session["TeamSponsorId"] = teamsponsorid;
+                }
+            }
+
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            return View(searchResult.ToPagedList(pageNumber, pageSize));
         }
 
 

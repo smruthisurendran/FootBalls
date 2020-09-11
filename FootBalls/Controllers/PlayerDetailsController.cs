@@ -145,8 +145,8 @@ namespace FootBalls.Controllers
         [HttpGet]
         public ActionResult PlayerRegistration()
         {
-            //if (Session["UserId"] != null)
-            //{
+            ViewBag.Name = Session["Name"].ToString();
+            ViewBag.MobileNumber = Session["MobileNumber"].ToString();
 
             List<TblCountry> countries = db.Country_tbl.ToList();
             ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
@@ -155,14 +155,11 @@ namespace FootBalls.Controllers
             ViewBag.UserList = new SelectList(user, "UserId", "UserId");
 
             return View();
-            //}
-
-
-            //return RedirectToAction("Login", "Account");
+           
         }
 
         [HttpPost]
-        public ActionResult PlayerRegistration(TblPlayer model, string city, List<string> PlayingPlace, HttpPostedFileBase postedFile)
+        public ActionResult PlayerRegistration(TblPlayer model, string city,List<string> PlayingPlace, HttpPostedFileBase postedFile)
         {
             var userid = Session["UserId"].ToString();
 
@@ -171,6 +168,14 @@ namespace FootBalls.Controllers
 
             List<TblUser> user = db.User_tbl.ToList();
             ViewBag.UserList = new SelectList(user, "UserId", "UserId");
+
+            //if (PlayingPlace != null)
+            //{
+               
+            //    string selectedvalue = string.Join(",", PlayingPlace);
+                
+            //}
+
 
             if (ModelState.IsValid)
             {
@@ -578,6 +583,6 @@ namespace FootBalls.Controllers
         {
             ViewBag.PlayerId = id;
             return View();
-        }
+        }      
     }
 }

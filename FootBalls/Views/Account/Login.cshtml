@@ -4,6 +4,9 @@
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
+<a href="@Url.Action("ChangeBackground","Account")" style="font-size:16px;color:chartreuse;text-align:end; "><b>Change Background Image</b></a>
+
+
 @using (Html.BeginForm("Login", "Account", FormMethod.Post))
 {
     <div class="login">
@@ -61,7 +64,7 @@
     <a href="@Url.Action("PlayGround","PlayGroundDetails")" style="font-size:16px;color:chartreuse;margin-left:170px"><b>PlayGround</b></a>
     <a href="@Url.Action("Team","TeamDetails")" style="font-size:16px;color:chartreuse;margin-left:250px"><b>Team</b></a>
     <a href="@Url.Action("Championship","ChampionshipDetails")" style="font-size:16px;color:chartreuse;margin-left:250px"><b>Championship</b></a>
-   
+
 </div>
 <br />
 
@@ -71,7 +74,7 @@
     <a href="@Url.Action("PlayGroundOwner","PlayGroundOwnerDetails")" style="font-size:16px;color:chartreuse;margin-left:150px"><b>PlayGroundOwner</b></a>
     <a href="@Url.Action("TeamSponsor","TeamSponsorDetails")" style="font-size:16px;color:chartreuse;margin-left:200px"><b>TeamSponsor</b></a>
     <a href="@Url.Action("ChampionshipSponsor","ChampionshipSponsorDetails")" style="font-size:16px;color:chartreuse;margin-left:200px"><b>ChampionshipSponsor</b></a>
-  
+
 </div>
 
 

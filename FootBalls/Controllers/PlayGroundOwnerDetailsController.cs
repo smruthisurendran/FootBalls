@@ -53,8 +53,8 @@ namespace FootBalls.Controllers
         [HttpGet]
         public ActionResult PlayGroundOwnerRegistration()
         {
-            //if (Session["UserId"] != null)
-            //{
+            ViewBag.Name = Session["Name"].ToString();
+            ViewBag.MobileNumber = Session["MobileNumber"].ToString();
 
             List<TblCountry> countries = db.Country_tbl.ToList();
             ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
@@ -63,10 +63,7 @@ namespace FootBalls.Controllers
             ViewBag.UserList = new SelectList(user, "UserId", "UserId");
 
             return View();
-            //}
-
-
-            //return RedirectToAction("Login", "Account");
+           
         }
 
         [HttpPost]

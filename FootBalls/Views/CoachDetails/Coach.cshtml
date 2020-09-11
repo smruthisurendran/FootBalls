@@ -10,14 +10,7 @@
     ViewBag.Title = "Coach";
     Layout = "~/Views/Shared/_PlayerLayout.cshtml";
 }
-<div id="confirm">
-    <div class="message">Have to Login Before Registration.</div>
-    <a href="@Url.Action("Login", "Account")"><input type="button" class="yes" value="OK"></a>
-</div>
-<div id="confirm1">
-    <div class="message1">Sorry. User already registered.</div>
-    <a href="@Url.Action("Coach", "CoachDetails")"><input type="button" class="yes" value="OK"></a>
-</div>
+
 @if (Session["UserId"] != null)
 {
     <div class="topnav">
@@ -72,59 +65,69 @@ else
 </div>
 <br />
 <div class="table-responsive">
-
-    <b>  search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
-
-
-
     <br />
     <br />
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
-        <thead style="border-bottom:3px solid black">
-            <tr class="danger" style="border-bottom:3px solid black">
+    @using (Html.BeginForm("Coach", "CoachDetails", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
+            <thead style="border-bottom:3px solid black">
+                <tr style="border:3px solid black">
+                    @*<th> Search </th>*@
+                    <th style="border-bottom:3px solid black">@Html.TextBox("name")</th>
+                    <th>@Html.TextBox("weight")</th>
+                    <th>@Html.TextBox("height")</th>
+                    <th>@Html.TextBox("city")</th>
+                    <th>@Html.TextBox("region")</th>
+                    <th>@Html.TextBox("country")</th>
 
-                <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Coach Name </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp "> Weight </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp "> Height </th>
+                    <th> <input type="submit" value="Search" style="background-color:#20c5f7;border-radius: 10px;" /></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr class="danger" style="border-bottom:3px solid black">
 
-                <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Coach Name </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp "> Weight </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp "> Height </th>
 
-                <th style="border-bottom:3px solid black"> Total Championship  </th>
-                <th style="border-bottom:3px solid black">  Total Matches  </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
 
-            </tr>
-        </thead>
-        <tbody id="myTable" style="border-bottom:2px solid black;">
+                    <th style="border-bottom:3px solid black"> Total Championship  </th>
+                    <th style="border-bottom:3px solid black">  Total Matches  </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="myTable" style="border-bottom:2px solid black;">
 
-            @if (Model != null)
-            {
-                foreach (var items in Model)
+                @if (Model != null)
                 {
+                    foreach (var items in Model)
+                    {
 
-                    <tr>
-
-
-                        <td><a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))">@items.Coach</a></td>
-                        <td>@items.Weight</td>
-                        <td>@items.Length</td>
+                        <tr>
 
 
-                        <td>@items.TblCity.City</td>
-                        <td>@items.TblCity.TblRegion.Region </td>
-                        <td>@items.TblCity.TblRegion.TblCountry.Country</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                            <td><a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))">@items.Coach</a></td>
+                            <td>@items.Weight</td>
+                            <td>@items.Length</td>
 
-                        @*<td><a href="#" style="color:darkmagenta;"><input type="button" style="background-color:#41b03e;" value="Request For Coach" /></a></td>*@
-                    </tr>
+
+                            <td>@items.TblCity.City</td>
+                            <td>@items.TblCity.TblRegion.Region </td>
+                            <td>@items.TblCity.TblRegion.TblCountry.Country</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            @*<td><a href="#" style="color:darkmagenta;"><input type="button" style="background-color:#41b03e;" value="Request For Coach" /></a></td>*@
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
-
+            </tbody>
+        </table>
+    }
     <br />
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
@@ -132,10 +135,17 @@ else
 
 </div>
 
-
+<div id="confirm" style="margin-bottom:50%;">
+    <div class="message">Sorry!!!...Please Login before Regisration</div>
+    <a href="@Url.Action("Login", "Account")"><input type="button" class="yes" value="OK"></a>
+</div>
+<div id="confirm1" style="margin-bottom:50%;">
+    <div class="message1">Sorry. User already registered.</div>
+    <a href="@Url.Action("Coach", "CoachDetails")"><input type="button" class="yes" value="OK"></a>
+</div>
 <script type="text/javascript">
 
-          
+
            function searchTable() {
                 var input, filter, found, table, tr, td, i, j;
                 input = document.getElementById("myInput");

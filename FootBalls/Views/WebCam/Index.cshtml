@@ -1,0 +1,27 @@
+﻿@{ 
+    ViewBag.Title = "Index";
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.webcam.js"> </script>
+    <script>
+        $("#Camera").webcam({
+            width: 320,
+            height: 240,
+            mode: "save",
+            swiffle: "@Url.Content("~/Content/webcamjs-master/webcam.swf")",
+            onTick: function () { },
+            onSave: function () { },
+            onCapture: function () {
+                webcam.save("@Url.Content("~/WebCam/Capture")/");
+            },
+            debug: function () { },
+            onLoad: function () { }
+        });
+    </script>    
+}
+
+<h2>Index</h2>
+<input type="button" value="Shoot!" onclick="webcam.capture();" />
+<div id="Camera"></div>

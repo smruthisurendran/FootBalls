@@ -50,6 +50,10 @@ namespace FootBalls.Controllers
         [HttpGet]
         public ActionResult TeamSponsorRegistration()
         {
+
+            ViewBag.Name = Session["Name"].ToString();
+            ViewBag.MobileNumber = Session["MobileNumber"].ToString();
+
             List<TblCountry> countries = db.Country_tbl.ToList();
             ViewBag.CountryList = new SelectList(countries, "CountryId", "Country");
 

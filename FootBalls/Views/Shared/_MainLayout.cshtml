@@ -59,16 +59,19 @@
                     text-decoration:none;
                     font-size:17px;
                 }
+       
     </style>
 
 </head>
 <body style="background-image:url('/Content/images/fbimg7.jpg');">
-    
+
     <div>
         @RenderBody()
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+   
 </body>
 </html>

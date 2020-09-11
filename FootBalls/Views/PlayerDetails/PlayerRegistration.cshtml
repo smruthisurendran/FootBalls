@@ -20,7 +20,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Player, new { @class = "" })
-                            @Html.EditorFor(model => model.Player, new { htmlAttributes = new { @class = "form-control", placeholder = " Name", autocomplete = "off" } })
+                            @Html.EditorFor(model => model.Player, new { htmlAttributes = new { @class = "form-control", @Value = @ViewBag.Name, @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Player, "", new { @style = "color:red" })
                         </div>
                         <div class="form-group">
@@ -34,10 +34,24 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Photo, new { @class = "" })
                             <input id="Photo" title="Upload Image" type="file" name="postedFile" />
+                            <div style="margin:0 auto;width:980px; text-align:center;">
+                                <div style="float:left; border:4px solid #ccc; padding:5px;">
+                                    <div id="Camera">
+
+                                    </div>
+                                    <br />
+                                    <input type="button" value="Capture" onclick="webcam.Capture();" />
+                                </div>
+                                <div style="float:left; margin-left:20px; border:4px solid #ccc; padding:5px;">
+                                    <img id="show" style="width:50px;height: 50px;" src="~/WebImages/person.png" />
+                                    <br />
+                                    <input id="Submit1" type="submit" onclick="Uploadsubmit();" value="submit" />
+                                </div>
+                            </div>                            
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.Mobile, new { @class = "" })
-                            @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "", placeholder = " Mobile Number", autocomplete = "off" } })
+                            @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "", @Value = @ViewBag.MobileNumber, @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Mobile, "", new { @style = "color:red" })
                         </div>
                     </div>
@@ -53,6 +67,7 @@
                             @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "", placeholder = " Weight", autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.Weight, "", new { @style = "color:red" })
                         </div>
+                       
                     </div>
                     <br />
                     <div class="form-row">
@@ -170,6 +185,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/cssjqryUi")
 
+    <script src="~/Scripts/jquery.webcam.js"></script>"
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script type="text/javascript">
             $(document).ready(function () {
@@ -241,6 +257,71 @@
         })
             });
 
+        function UploadPic() {
+            $.ajax({
+                type: 'POST',
+                url: ("@Url.Content("~/PlayerDetails/Rebind") /");
+                dataType: 'json',
+                success: function (data) {
+                    $("#show").attr("src", data);
+                    document.getElementById('Submit1').disabled = false;
+                    alert("Photo Capture Successfully!");
+                }
+            });
+
+        }
+
+        function Uploadsubmit()
+        {
+            debugger;
+            var src = $('img').attr('src');
+            src_array = src.split('/');
+            src = src_array[4];
+            if (src != " ") {
+                $.ajax({
+                    type: 'POST',
+                    url: ("@Url.Content("~/PlayerDetails/Indexpic")/"),
+                    dataType: 'json',
+                    data: { Imagename: src },
+                    success: function () {
+
+                    }
+                });
+                window.opener.location.href = "~/PlayerDetails/ChangePhoto";
+                self.close();
+            }
+        }
+        
+        $("#Camera").webcam({
+            width: 320,
+            height: 240,
+            mode: "save",
+            swffile: "@Url.Content("~/Scripts/jscam.swf")",
+            onTick: function () { },
+            onSave: function () {
+                UploadPic();
+            },
+            onCapture: function () {
+                webcam.save("@Url.Content("~/PlayerDetails/Capture") /");
+            },
+            debug: function () { },
+            onLoad: function () { },
+            onSave: function ()
+            {
+                UploadPic();
+            }
+        });
+
     </script>
 
 }
+<script type="text/javascript">
+    window.onload = load();
+    function load() {
+        debugger;
+        document.getElementById('Submit1').disabled = true;
+    }
+</script>
+
+
+

@@ -8,14 +8,7 @@
     ViewBag.Title = "Team";
     Layout = "~/Views/Shared/_PlayerLayout.cshtml";
 }
-<div id="confirm">
-    <div class="message">Have to Login Before Registration.</div>
-    <a href="@Url.Action("Login", "Account")"><input type="button" class="yes" value="OK"></a>
-</div>
-<div id="confirm1">
-    <div class="message1">Sorry.Team Sponsor can registration Team.</div>
-    <a href="@Url.Action("Team","TeamDetails")"><input type="button" class="yes" value="OK"></a>
-</div>
+
 @if (Session["UserId"] != null)
 {
     <div class="topnav">
@@ -69,56 +62,68 @@ else
 </div>
 <br />
 <div class="table-responsive">
-
-    <b> search : </b> <input type="text" placeholder="Search Here" id="myInput" onkeyup="searchTable()" />
-
-
     <br />
     <br />
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
-        <thead style="border-bottom:3px solid black">
-            <tr class="danger" style="border-bottom:3px solid black">
-                <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown">Team Name </th>
+    @using (Html.BeginForm("Team", "TeamDetails", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
+            <thead style="border-bottom:3px solid black">
+                <tr style="border:3px solid black">
+                    <th style="border-bottom:3px solid black">@Html.TextBox("name")</th>
+                    <th>@Html.TextBox("city")</th>
+                    <th>@Html.TextBox("region")</th>
+                    <th>@Html.TextBox("country")</th>
+                    <th> <input type="submit" value="Search" style="background-color:#20c5f7;border-radius: 10px;" /></th>
 
-                <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
+                </tr>
+                <tr class="danger" style="border-bottom:3px solid black">
+                    <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown">Team Name </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
+                    <th></th>
 
+                </tr>
+            </thead>
+            <tbody id="myTable" style="border-bottom:2px solid black;">
 
-            </tr>
-        </thead>
-        <tbody id="myTable" style="border-bottom:2px solid black;">
-
-            @if (Model != null)
-            {
-                foreach (var items in Model)
+                @if (Model != null)
                 {
+                    foreach (var items in Model)
+                    {
 
-                    <tr>
-
-
-                        <td><a href="@Url.Action("TeamView", "TeamDetails", new RouteValueDictionary(new { id = items.TeamId }))">@items.TeamName</a></td>
-
-
-                        <td>@items.TblCity.City</td>
-                        <td>@items.TblCity.TblRegion.Region </td>
-                        <td>@items.TblCity.TblRegion.TblCountry.Country</td>
+                        <tr>
 
 
-                        @*    <td><a href="#" style="color:darkmagenta;">Request For Team</a></td>  *@
-                    </tr>
+                            <td><a href="@Url.Action("TeamView", "TeamDetails", new RouteValueDictionary(new { id = items.TeamId }))">@items.TeamName</a></td>
+
+
+                            <td>@items.TblCity.City</td>
+                            <td>@items.TblCity.TblRegion.Region </td>
+                            <td>@items.TblCity.TblRegion.TblCountry.Country</td>
+                            <th></th>
+
+                            @*    <td><a href="#" style="color:darkmagenta;">Request For Team</a></td>  *@
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
-
+            </tbody>
+        </table>
+    }
     <br />
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("Team", new { page }))
 
 </div>
-
+<div id="confirm" style="margin-bottom:50%;">
+    <div class="message">Sorry!!!...Please Login before Regisration</div>
+    <a href="@Url.Action("Login", "Account")"><input type="button" class="yes" value="OK"></a>
+</div>
+<div id="confirm1" style="margin-bottom:50%;">
+    <div class="message1">Sorry.Team Sponsor can registration Team.</div>
+    <a href="@Url.Action("Team","TeamDetails")"><input type="button" class="yes" value="OK"></a>
+</div>
 
 <script type="text/javascript">
 

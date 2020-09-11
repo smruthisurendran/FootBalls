@@ -78,59 +78,75 @@ else
 
     <br />
     <br />
-    <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
-        <thead style="border-bottom:3px solid black">
-            <tr class="danger" style="border-bottom:3px solid black">
+    @using (Html.BeginForm("Coachh", "CoachDetails", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table cellspacing="10" cellpadding="6" style="width:50%;" frame="border" class="table table-bordered table-condensed table-striped table-hover sortable">
+            <thead style="border-bottom:3px solid black">
+                <tr style="border:3px solid black">
+                    @*<th> Search </th>*@
+                    <th style="border-bottom:3px solid black">@Html.TextBox("name")</th>
+                    <th>@Html.TextBox("weight")</th>
+                    <th>@Html.TextBox("height")</th>
+                    <th>@Html.TextBox("city")</th>
+                    <th>@Html.TextBox("region")</th>
+                    <th>@Html.TextBox("country")</th>
 
-                <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Coach Name </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp "> Weight </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp "> Height </th>
+                    <th> <input type="submit" value="Search" style="background-color:#20c5f7;border-radius: 10px;" /></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr class="danger" style="border-bottom:3px solid black">
 
-                <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
-                <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp headerSortDown"> Coach Name </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp "> Weight </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp "> Height </th>
 
-                <th style="border-bottom:3px solid black"> Total Championship  </th>
-                <th style="border-bottom:3px solid black">  Total Matches  </th>
-                <th style="border-bottom:3px solid black">   </th>
-                <th style="border-bottom:3px solid black">   </th>
-            </tr>
-        </thead>
-        <tbody id="myTable" style="border-bottom:2px solid black;">
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> City </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> Region </th>
+                    <th style="border-bottom:3px solid black" class="headerSortUp"> Country</th>
 
-            @if (Model != null)
-            {
-                foreach (var items in Model)
+                    <th style="border-bottom:3px solid black"> Total Championship  </th>
+                    <th style="border-bottom:3px solid black">  Total Matches  </th>
+                    <th style="border-bottom:3px solid black">   </th>
+                    <th style="border-bottom:3px solid black">   </th>
+                </tr>
+            </thead>
+            <tbody id="myTable" style="border-bottom:2px solid black;">
+
+                @if (Model != null)
                 {
+                    foreach (var items in Model)
+                    {
 
-                    <tr>
+                        <tr>
 
-                        @*<td><a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))">@items.Coach</a></td>*@
-                        <td>@items.Coach</td>
-                        <td>@items.Weight</td>
-                        <td>@items.Length</td>
+                            @*<td><a href="@Url.Action("CoachView", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))">@items.Coach</a></td>*@
+                            <td>@items.Coach</td>
+                            <td>@items.Weight</td>
+                            <td>@items.Length</td>
 
 
-                        <td>@items.TblCity.City</td>
-                        <td>@items.TblCity.TblRegion.Region </td>
-                        <td>@items.TblCity.TblRegion.TblCountry.Country</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                            <td>@items.TblCity.City</td>
+                            <td>@items.TblCity.TblRegion.Region </td>
+                            <td>@items.TblCity.TblRegion.TblCountry.Country</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
 
-                        <td><a href="@Url.Action("CoachRequest", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))" style="color:darkmagenta;"><input type="button" value="Send Request" style="background-color:#f78f20; border-radius: 10px;"  /></a></td>
-                    </tr>
+                            <td><a href="@Url.Action("CoachRequest", "CoachDetails", new RouteValueDictionary(new { id = items.CoachId }))" style="color:darkmagenta;"><input type="button" value="Send Request" style="background-color:#f78f20; border-radius: 10px;" /></a></td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    <br />
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Coachh", new { page }))
 
-    @Html.PagedListPager(Model, page => Url.Action("Coachh", new { page }))
-
-</div>
+    </div>
 
 
 <script type="text/javascript">

@@ -136,16 +136,19 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CameraController.cs" />
     <Compile Include="Controllers\ChampionshipDetailsController.cs" />
     <Compile Include="Controllers\ChampionshipSponsorDetailsController.cs" />
     <Compile Include="Controllers\CoachDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\PlayerDetailsController.cs" />
     <Compile Include="Controllers\PlayGroundDetailsController.cs" />
     <Compile Include="Controllers\PlayGroundOwnerDetailsController.cs" />
     <Compile Include="Controllers\RefereeDetailsController.cs" />
     <Compile Include="Controllers\TeamDetailsController.cs" />
     <Compile Include="Controllers\TeamSponsorDetailsController.cs" />
+    <Compile Include="Controllers\WebCamController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -154,6 +157,7 @@
     <Compile Include="Models\CoachMyRequestTbl.cs" />
     <Compile Include="Models\PlayerDetailsTbl.cs" />
     <Compile Include="Models\PlayerMyRequestTbl.cs" />
+    <Compile Include="Models\TblChangeBackground.cs" />
     <Compile Include="Models\TblCoachRequest.cs" />
     <Compile Include="Models\TblChampionship.cs" />
     <Compile Include="Models\TblChampionshipRequest.cs" />
@@ -339,6 +343,29 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\webcamjs-master\demos\basic.html" />
+    <Content Include="Content\webcamjs-master\demos\click-to-run.html" />
+    <Content Include="Content\webcamjs-master\demos\combo.html" />
+    <Content Include="Content\webcamjs-master\demos\constraints.html" />
+    <Content Include="Content\webcamjs-master\demos\continuous.html" />
+    <Content Include="Content\webcamjs-master\demos\crop-large.html" />
+    <Content Include="Content\webcamjs-master\demos\crop.html" />
+    <Content Include="Content\webcamjs-master\demos\events.html" />
+    <Content Include="Content\webcamjs-master\demos\flash-disabled.html" />
+    <Content Include="Content\webcamjs-master\demos\flash.html" />
+    <Content Include="Content\webcamjs-master\demos\flip-flash.html" />
+    <Content Include="Content\webcamjs-master\demos\flip.html" />
+    <Content Include="Content\webcamjs-master\demos\hd.html" />
+    <Content Include="Content\webcamjs-master\demos\ios-large.html" />
+    <Content Include="Content\webcamjs-master\demos\large.html" />
+    <Content Include="Content\webcamjs-master\demos\preview.html" />
+    <Content Include="Content\webcamjs-master\demos\reset.html" />
+    <Content Include="Content\webcamjs-master\demos\sfx.html" />
+    <Content Include="Content\webcamjs-master\demos\shutter.mp3" />
+    <Content Include="Content\webcamjs-master\flash\README.txt" />
+    <Content Include="Content\webcamjs-master\webcam.js" />
+    <Content Include="Content\webcamjs-master\webcam.min.js" />
+    <Content Include="Content\webcamjs-master\webcam.swf" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap-multiselect.js" />
@@ -605,6 +632,22 @@
     <Content Include="Content\PlayerReg\scss\layouts\main.scss" />
     <Content Include="Content\PlayerReg\scss\layouts\responsive.scss" />
     <Content Include="Content\PlayerReg\scss\style.scss" />
+    <Content Include="Scripts\bower.json" />
+    <Content Include="WebImages\person.png" />
+    <Content Include="WebImages\test.png" />
+    <Content Include="Content\webcamjs-master\bower.json" />
+    <Content Include="Content\webcamjs-master\build.sh" />
+    <Content Include="Content\webcamjs-master\demos\shutter.ogg" />
+    <Content Include="Content\webcamjs-master\DOCS.md" />
+    <Content Include="Content\webcamjs-master\flash\com\adobe\images\BitString.as" />
+    <Content Include="Content\webcamjs-master\flash\com\adobe\images\JPGEncoder.as" />
+    <Content Include="Content\webcamjs-master\flash\com\adobe\images\PNGEncoder.as" />
+    <Content Include="Content\webcamjs-master\flash\mx\utils\Base64Encoder.as" />
+    <Content Include="Content\webcamjs-master\flash\Webcam.as" />
+    <Content Include="Content\webcamjs-master\flash\Webcam.fla" />
+    <Content Include="Content\webcamjs-master\LICENSE" />
+    <Content Include="Content\webcamjs-master\package.json" />
+    <Content Include="Content\webcamjs-master\README.md" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
@@ -619,6 +662,10 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.webcam.js" />
+    <Content Include="Scripts\jquery.webcam.min.js" />
+    <Content Include="Scripts\jscam.swf" />
+    <Content Include="Scripts\jscam_canvas_only.swf" />
     <Content Include="Scripts\modernizr-2.8.3-respond-1.4.2.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment-with-locales.js" />
@@ -629,6 +676,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\srcc\jscam.xml" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\jquery.multiselect.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
@@ -789,9 +837,21 @@
     <Content Include="Views\PlayGroundOwnerDetails\EditProfile.cshtml" />
     <Content Include="Views\ChampionshipSponsorDetails\EditProfile.cshtml" />
     <Content Include="Views\ChampionshipDetails\EditProfile.cshtml" />
+    <Content Include="Views\Account\ChangeBackground.cshtml" />
+    <Content Include="Scripts\Makefile" />
+    <Content Include="Scripts\srcc\BitString.as" />
+    <Content Include="Scripts\srcc\JPGEncoder.as" />
+    <Content Include="Scripts\srcc\jscam.as" />
+    <Content Include="Scripts\webcam.jquery.json" />
+    <Content Include="Scripts\READMEE.md" />
+    <Content Include="Views\Photo\Index.cshtml" />
+    <Content Include="Views\Photo\Changephoto.cshtml" />
+    <Content Include="Views\Camera\Index.cshtml" />
+    <Content Include="Views\WebCam\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="WebCam\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

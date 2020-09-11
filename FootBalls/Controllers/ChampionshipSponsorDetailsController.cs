@@ -51,7 +51,9 @@ namespace FootBalls.Controllers
         [HttpGet]
         public ActionResult ChampionshipSponsorRegistration()
         {
-            
+            ViewBag.Name = Session["Name"].ToString();
+            ViewBag.MobileNumber = Session["MobileNumber"].ToString();
+
             List<TblUser> user = db.User_tbl.ToList();
             ViewBag.UserList = new SelectList(user, "UserId", "UserId");
 
